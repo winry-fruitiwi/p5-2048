@@ -1,0 +1,39 @@
+p5-2048
+	single-row move() and combine() tests:
+		2,0,0,0 → 0,0,0,2
+		just move the block across the board
+
+		0,2,0,0 → 0,0,0,2
+		check for index out of bounds errors
+
+		0,0,0,2 → 0,0,0,2
+		testing keeping the block in place
+
+		2,4,0,0 → 0,0,2,4
+		ignoring combinations by making different values
+
+		0,0,2,4 → 0,0,2,4
+		testing keeping multiple blocks in place
+
+		0,0,2,2 → 0,0,0,4
+		testing combine()
+
+		2,2,0,0 → 0,0,0,4
+		testing combine() and move() together
+
+		0,2,2,2 → find this out later. likely would be 0,0,2,4
+
+		2,2,2,2 → 0,0,4,4
+		testing nested combinations
+
+		2,4,8,16 → 2,4,8,16
+		making sure that other number work as well
+
+		representation of input/output:
+			input is represented as a list of Numbers
+			Number class has: columnIndex, rowIndex, and value
+			list of Numbers should be updated every single time a block is moved
+			output list of Numbers
+
+	multi-row move() and combine() tests:
+		to be done tomorrow
