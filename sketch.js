@@ -62,7 +62,7 @@ function slide(input2048Row) {
         // when we encounter a nonzero number, for now we will shift it to
         // the end and not account for other blocks
         if (number > 0) {
-            shifted2048Row[2] = number
+            shifted2048Row[3] = number
         }
     }
 
@@ -70,19 +70,31 @@ function slide(input2048Row) {
 }
 
 
+// a for loop that returns whether two lists are equal.
+function equateLists(list1, list2) {
+    if (list1.length !== list2.length) {
+        return false
+    }
+
+    for (let i = 0; i < list1.length; i++) {
+        if (list1[i] !== list2[i]) {
+            return false
+        }
+    }
+    return true
+}
+
+
 // a set of test for slide()
 function slideTests() {
-    console.log(
-        JSON.stringify(slide([2,0,0,0])) === JSON.stringify([0,0,0,2]))
+    let list1 = [0, 0, 0, 2]
+    let list2 = [0, 0, 0, 2]
+    console.log(equateLists(list1, list2))
 
-    print(JSON.stringify( slide([2,0,0,0]) ) === JSON.stringify([0,0,0,2]))
-    print(JSON.stringify( slide([0,2,0,0]) ) === JSON.stringify([0,0,0,2]))
-    print(JSON.stringify( slide([0,0,2,0]) ) === JSON.stringify([0,0,0,2]))
-    print(JSON.stringify( slide([0,0,0,2]) ) === JSON.stringify([0,0,0,2]))
-    console.assert(JSON.stringify( slide([2,0,0,0]) ) === JSON.stringify([0,0,0,2]))
-    console.assert(JSON.stringify( slide([0,2,0,0]) ) === JSON.stringify([0,0,0,2]))
-    console.assert(JSON.stringify( slide([0,0,2,0]) ) === JSON.stringify([0,0,0,2]))
-    console.assert(JSON.stringify( slide([0,0,0,2]) ) === JSON.stringify([0,0,0,2]))
+    console.assert(equateLists(slide([2,0,0,0]), [0,0,0,2]))
+    console.assert(equateLists(slide([0,2,0,0]), [0,0,0,2]))
+    console.assert(equateLists(slide([0,0,2,0]), [0,0,0,2]))
+    console.assert(equateLists(slide([0,0,0,2]), [0,0,0,2]))
 }
 
 
