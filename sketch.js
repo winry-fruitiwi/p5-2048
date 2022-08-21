@@ -55,14 +55,20 @@ function slide(input2048Row) {
     // the output
     let shifted2048Row = [0, 0, 0, 0]
 
+    // the number of numbers encountered in the 2048 grid row so far is part
+    // of this variable, which keeps track of where the next integer will be
+    // in order to avoid collisions with other numbers in the 2048 grid.
+    let nextNumberPos = 3
+
     // iterate through numbers in input
-    for (let i = 0; i < input2048Row.length; i++) {
+    for (let i = input2048Row.length - 1; i >= 0; i--) {
         let number = input2048Row[i]
 
         // when we encounter a nonzero number, for now we will shift it to
         // the end and not account for other blocks
         if (number > 0) {
-            shifted2048Row[3] = number
+            shifted2048Row[nextNumberPos] = number
+            nextNumberPos--
         }
     }
 
@@ -94,6 +100,11 @@ function slideTests() {
     console.assert(equateLists(slide([2,0,0,0]), [0,0,0,2]))
     console.assert(equateLists(slide([0,2,0,0]), [0,0,0,2]))
     console.assert(equateLists(slide([0,0,2,0]), [0,0,0,2]))
+    console.assert(equateLists(slide([0,0,0,2]), [0,0,0,2]))
+
+    console.assert(equateLists(slide([2,2,0,0]), [0,0,2,2]))
+    console.assert(equateLists(slide([0,2,4,0]), [0,0,2,4]))
+    console.assert(equateLists(slide([0,8,2,0]), [0,0,8,2]))
     console.assert(equateLists(slide([0,0,0,2]), [0,0,0,2]))
 }
 
