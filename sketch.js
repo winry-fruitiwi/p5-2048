@@ -33,6 +33,8 @@ function setup() {
     rowIn2048Grid = [2, 0, 0, 0]
 
     slideTests()
+    combineAdjacentTests()
+    moveRightTests()
 }
 
 
@@ -110,12 +112,21 @@ function equateLists(list1, list2) {
 }
 
 
-// a set of test for slide()
-function slideTests() {
-    let list1 = [0, 0, 0, 2]
-    let list2 = [0, 0, 0, 2]
-    console.log(equateLists(list1, list2))
+// calls slide(), combineAdjacent(), and then slide() again. This currently
+// only simulates moveRight(), but can be generalized to moveLeft() if I
+// flip the list I'm operating on, run moveRight(), and then flip the list
+// again. I don't know how to simulate moveUp() and moveDown() though.
+function moveRight(input2048Row) {
+    let slid2048Row = slide(input2048Row)
 
+    let combined2048Row = combineAdjacent(slid2048Row)
+
+    return slide(combined2048Row)
+}
+
+
+// a set of tests for slide()
+function slideTests() {
     console.assert(equateLists(slide([2,0,0,0]), [0,0,0,2]))
     console.assert(equateLists(slide([0,2,0,0]), [0,0,0,2]))
     console.assert(equateLists(slide([0,0,2,0]), [0,0,0,2]))
@@ -125,11 +136,29 @@ function slideTests() {
     console.assert(equateLists(slide([0,2,4,0]), [0,0,2,4]))
     console.assert(equateLists(slide([0,8,2,0]), [0,0,8,2]))
     console.assert(equateLists(slide([0,0,0,2]), [0,0,0,2]))
+}
 
+
+// a set of tests for combineAdjacent
+function combineAdjacentTests() {
     console.assert(equateLists(combineAdjacent([2,2,0,0]), [0,4,0,0]))
-    console.assert(equateLists(combineAdjacent([0,4,4,0]), [0,0,8,0]))
+    console.assert(equateLists(combineAdjacent([0,4,2,0]), [0,4,2,0]))
     console.assert(equateLists(combineAdjacent([0,8,8,0]), [0,0,16,0]))
     console.assert(equateLists(combineAdjacent([0,0,2,2]), [0,0,0,4]))
+}
+
+
+// a set of tests for moveRight
+function moveRightTests() {
+    console.assert(equateLists(moveRight([0,0,0,2]), [0,0,0,2]))
+    console.assert(equateLists(moveRight([0,0,2,2]), [0,0,0,4]))
+    console.assert(equateLists(moveRight([0,2,2,0]), [0,0,0,4]))
+    console.assert(equateLists(moveRight([0,4,2,0]), [0,0,4,2]))
+
+    console.assert(equateLists(moveRight([2,2,2,2]), [0,0,4,4]))
+    console.assert(equateLists(moveRight([0,2,2,2]), [0,0,2,4]))
+    console.assert(equateLists(moveRight([0,2,8,0]), [0,0,2,8]))
+    console.assert(equateLists(moveRight([4,4,2,2]), [0,0,8,4]))
 }
 
 
