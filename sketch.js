@@ -76,6 +76,25 @@ function slide(input2048Row) {
 }
 
 
+// takes in a 2048 row and outputs a combined 2048 row
+function combineAdjacent(input2048Row) {
+    // the output, using a trick that almost runs copy() on input2048 row
+    let output2048Row = [...input2048Row]
+
+    // iterate from right to left, starting at input2048Row.length - 2. This
+    // is equivalent to Python's list[-2]. Check i + 1 and i. If they are
+    // the same value, i+1's value is duplicated, and i's value becomes 0
+    for (let i = output2048Row.length - 2; i >= 0; i--) {
+        if (output2048Row[i] === output2048Row[i + 1]) {
+            output2048Row[i+1] *= 2
+            output2048Row[i] = 0
+        }
+    }
+
+    return output2048Row
+}
+
+
 // a for loop that returns whether two lists are equal.
 function equateLists(list1, list2) {
     if (list1.length !== list2.length) {
@@ -106,6 +125,11 @@ function slideTests() {
     console.assert(equateLists(slide([0,2,4,0]), [0,0,2,4]))
     console.assert(equateLists(slide([0,8,2,0]), [0,0,8,2]))
     console.assert(equateLists(slide([0,0,0,2]), [0,0,0,2]))
+
+    console.assert(equateLists(combineAdjacent([2,2,0,0]), [0,4,0,0]))
+    console.assert(equateLists(combineAdjacent([0,4,4,0]), [0,0,8,0]))
+    console.assert(equateLists(combineAdjacent([0,8,8,0]), [0,0,16,0]))
+    console.assert(equateLists(combineAdjacent([0,0,2,2]), [0,0,0,4]))
 }
 
 
