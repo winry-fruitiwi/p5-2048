@@ -35,6 +35,7 @@ function setup() {
     slideTests()
     combineAdjacentTests()
     moveRightTests()
+    moveLeftTests()
 }
 
 
@@ -125,6 +126,18 @@ function moveRight(input2048Row) {
 }
 
 
+// takes in an input 2048 row and calls moveRight on a reversed list
+function moveLeft(input2048Row) {
+    let copied2048Row = [...input2048Row]
+    copied2048Row.reverse()
+
+    let output2048Row = moveRight(copied2048Row)
+
+    output2048Row.reverse()
+    return output2048Row
+}
+
+
 // a set of tests for slide()
 function slideTests() {
     console.assert(equateLists(slide([2,0,0,0]), [0,0,0,2]))
@@ -159,6 +172,19 @@ function moveRightTests() {
     console.assert(equateLists(moveRight([0,2,2,2]), [0,0,2,4]))
     console.assert(equateLists(moveRight([0,2,8,0]), [0,0,2,8]))
     console.assert(equateLists(moveRight([4,4,2,2]), [0,0,8,4]))
+}
+
+// a set of tests for moveLeft
+function moveLeftTests() {
+    console.assert(equateLists(moveLeft([0,0,0,2]), [2,0,0,0]))
+    console.assert(equateLists(moveLeft([0,0,2,2]), [4,0,0,0]))
+    console.assert(equateLists(moveLeft([0,2,2,0]), [4,0,0,0]))
+    console.assert(equateLists(moveLeft([0,4,2,0]), [4,2,0,0]))
+
+    console.assert(equateLists(moveLeft([2,2,2,2]), [4,4,0,0]))
+    console.assert(equateLists(moveLeft([0,2,2,2]), [4,2,0,0]))
+    console.assert(equateLists(moveLeft([0,2,8,0]), [2,8,0,0]))
+    console.assert(equateLists(moveLeft([4,4,2,2]), [8,4,0,0]))
 }
 
 
