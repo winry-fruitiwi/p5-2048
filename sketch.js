@@ -8,9 +8,8 @@ let font
 let instructions
 let debugCorner /* output debug text in the bottom left corner of the canvas */
 
-// a row in the 2048 grid. later this will become a 2D grid. null represents
-// empty spaces in the 2048 grid.
-let rowIn2048Grid
+// the 2048 grid represented by a 2D array. Can later be manipulated by tests.
+let grid
 
 
 function preload() {
@@ -30,12 +29,18 @@ function setup() {
 
     debugCorner = new CanvasDebugCorner(5)
 
-    rowIn2048Grid = [2, 0, 0, 0]
+    grid = [
+            [1,0,0,0],
+            [0,0,0,0],
+            [0,0,0,0],
+            [0,0,0,0]
+    ]
 
     slideTests()
     combineAdjacentTests()
     moveRightTests()
     moveLeftTests()
+    createColumn2DGridTests()
 }
 
 
@@ -113,10 +118,7 @@ function equateLists(list1, list2) {
 }
 
 
-// calls slide(), combineAdjacent(), and then slide() again. This currently
-// only simulates moveRight(), but can be generalized to moveLeft() if I
-// flip the list I'm operating on, run moveRight(), and then flip the list
-// again. I don't know how to simulate moveUp() and moveDown() though.
+// calls slide(), combineAdjacent(), and then slide() again.
 function moveRight(input2048Row) {
     let slid2048Row = slide(input2048Row)
 
@@ -135,6 +137,19 @@ function moveLeft(input2048Row) {
 
     output2048Row.reverse()
     return output2048Row
+}
+
+
+// finds a column in a 2D 2048 grid
+function createColumn2DGrid(input2048Grid, inputColumnIndex) {
+    // a column created by this function
+    let outputColumn = []
+
+    for (let row of input2048Grid) {
+        outputColumn.push(row[inputColumnIndex])
+    }
+
+    return outputColumn
 }
 
 
@@ -158,6 +173,7 @@ function combineAdjacentTests() {
     console.assert(equateLists(combineAdjacent([0,4,2,0]), [0,4,2,0]))
     console.assert(equateLists(combineAdjacent([0,8,8,0]), [0,0,16,0]))
     console.assert(equateLists(combineAdjacent([0,0,2,2]), [0,0,0,4]))
+    console.assert(equateLists(combineAdjacent([0,2,2,4]), [0,0,4,4]))
 }
 
 
@@ -185,6 +201,12 @@ function moveLeftTests() {
     console.assert(equateLists(moveLeft([0,2,2,2]), [4,2,0,0]))
     console.assert(equateLists(moveLeft([0,2,8,0]), [2,8,0,0]))
     console.assert(equateLists(moveLeft([4,4,2,2]), [8,4,0,0]))
+}
+
+
+// a set of tests for createColumn2DGrid
+function createColumn2DGridTests() {
+    console.assert(equateLists(createColumn2DGrid(grid, 0), [1, 0, 0, 0]))
 }
 
 
