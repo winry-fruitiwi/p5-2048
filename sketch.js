@@ -30,10 +30,10 @@ function setup() {
     debugCorner = new CanvasDebugCorner(5)
 
     grid = [
-            [0,0,0,0],
-            [0,0,0,0],
-            [0,0,0,0],
-            [1,0,0,0]
+            [2,2,2,2],
+            [2,2,2,2],
+            [2,2,2,2],
+            [2,2,2,2]
     ]
 
     slideTests()
@@ -42,6 +42,9 @@ function setup() {
     moveLeftTests()
     createColumn2DGridTests()
     moveUpTests()
+    moveDownTests()
+
+    printGrid()
 }
 
 
@@ -161,6 +164,13 @@ function moveUp(input2048Grid, columnToMoveIndex) {
 }
 
 
+// takes an input 2048 grid, calls getColumn2DGrid, then moveLeft
+function moveDown(input2048Grid, columnToMoveIndex) {
+    let column = getColumn2DGrid(input2048Grid, columnToMoveIndex)
+    return moveRight(column)
+}
+
+
 // a set of tests for slide()
 function slideTests() {
     console.assert(equateLists(slide([2,0,0,0]), [0,0,0,2]))
@@ -212,6 +222,17 @@ function moveLeftTests() {
 }
 
 
+// a set of tests for getColumn2DGrid
+function createColumn2DGridTests() {
+    console.assert(equateLists(getColumn2DGrid([
+        [0,0,0,0],
+        [0,0,0,0],
+        [0,0,0,0],
+        [1,0,0,0]
+    ], 0), [0, 0, 0, 1]))
+}
+
+
 // a set of tests for moveUp
 function moveUpTests() {
     console.assert(equateLists(moveUp([
@@ -224,8 +245,8 @@ function moveUpTests() {
         [0,0,0,0],
         [0,0,0,0],
         [0,0,0,0],
-        [1,0,0,0]
-    ], 0), [1, 0, 0, 0]))
+        [1,1,0,0]
+    ], 1), [1, 0, 0, 0]))
     console.assert(equateLists(moveUp([
         [0,0,0,0],
         [0,0,0,0],
@@ -241,14 +262,32 @@ function moveUpTests() {
 }
 
 
-// a set of tests for getColumn2DGrid
-function createColumn2DGridTests() {
-    console.assert(equateLists(getColumn2DGrid([
+// a set of tests for moveUp
+function moveDownTests() {
+    console.assert(equateLists(moveDown([
+        [0,0,0,0],
+        [0,0,0,0],
+        [0,0,0,0],
+        [2,0,0,0]
+    ], 0), [0, 0, 0, 2]))
+    console.assert(equateLists(moveDown([
         [0,0,0,0],
         [0,0,0,0],
         [0,0,0,0],
         [1,0,0,0]
     ], 0), [0, 0, 0, 1]))
+    console.assert(equateLists(moveDown([
+        [0,0,0,0],
+        [0,0,0,0],
+        [2,0,0,0],
+        [2,0,0,0]
+    ], 0), [0, 0, 0, 4]))
+    console.assert(equateLists(moveDown([
+        [2,0,0,0],
+        [2,0,0,0],
+        [2,0,0,0],
+        [2,0,0,0]
+    ], 0), [0, 0, 4, 4]))
 }
 
 
@@ -259,6 +298,52 @@ function keyPressed() {
         instructions.html(`<pre>
         sketch stopped</pre>`)
     }
+
+    if (keyCode === LEFT_ARROW || key === "a") {
+        grid[0] = moveLeft(grid[0])
+        printGrid()
+    }
+
+    if (keyCode === RIGHT_ARROW || key === "d") {
+        grid[0] = moveRight(grid[0])
+        printGrid()
+    }
+
+    if (keyCode === DOWN_ARROW || key === "s") {
+        let column = moveDown(grid, 0)
+
+        // update the first column
+        for (let i = 0; i < grid.length; i++) {
+            grid[i][0] = column[i]
+        }
+
+        printGrid()
+    }
+
+    if (keyCode === UP_ARROW || key === "w") {
+        let column = moveUp(grid, 0)
+
+        // update the first column
+        for (let i = 0; i < grid.length; i++) {
+            grid[i][0] = column[i]
+        }
+
+        printGrid()
+    }
+}
+
+
+// prints the 2048 grid
+function printGrid() {
+    console.clear()
+
+    let printedGridString = ""
+
+    for (let row of grid) {
+        printedGridString += JSON.stringify(row) + "\n"
+    }
+
+    print(printedGridString)
 }
 
 
