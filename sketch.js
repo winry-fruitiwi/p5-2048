@@ -30,10 +30,10 @@ function setup() {
     debugCorner = new CanvasDebugCorner(5)
 
     grid = [
-            [1,0,0,0],
             [0,0,0,0],
             [0,0,0,0],
-            [0,0,0,0]
+            [0,0,0,0],
+            [1,0,0,0]
     ]
 
     slideTests()
@@ -41,6 +41,7 @@ function setup() {
     moveRightTests()
     moveLeftTests()
     createColumn2DGridTests()
+    moveUpTests()
 }
 
 
@@ -66,7 +67,7 @@ function slide(input2048Row) {
     // the number of numbers encountered in the 2048 grid row so far is part
     // of this variable, which keeps track of where the next integer will be
     // in order to avoid collisions with other numbers in the 2048 grid.
-    let nextNumberPos = 3
+    let nextNumberPos = input2048Row.length - 1
 
     // iterate through numbers in input
     for (let i = input2048Row.length - 1; i >= 0; i--) {
@@ -141,7 +142,7 @@ function moveLeft(input2048Row) {
 
 
 // finds a column in a 2D 2048 grid
-function createColumn2DGrid(input2048Grid, inputColumnIndex) {
+function getColumn2DGrid(input2048Grid, inputColumnIndex) {
     // a column created by this function
     let outputColumn = []
 
@@ -150,6 +151,13 @@ function createColumn2DGrid(input2048Grid, inputColumnIndex) {
     }
 
     return outputColumn
+}
+
+
+// takes an input 2048 grid, calls getColumn2DGrid, then moveLeft
+function moveUp(input2048Grid, columnToMoveIndex) {
+    let column = getColumn2DGrid(input2048Grid, columnToMoveIndex)
+    return moveLeft(column)
 }
 
 
@@ -204,9 +212,43 @@ function moveLeftTests() {
 }
 
 
-// a set of tests for createColumn2DGrid
+// a set of tests for moveUp
+function moveUpTests() {
+    console.assert(equateLists(moveUp([
+        [0,0,0,0],
+        [0,0,0,0],
+        [0,0,0,0],
+        [2,0,0,0]
+    ], 0), [2, 0, 0, 0]))
+    console.assert(equateLists(moveUp([
+        [0,0,0,0],
+        [0,0,0,0],
+        [0,0,0,0],
+        [1,0,0,0]
+    ], 0), [1, 0, 0, 0]))
+    console.assert(equateLists(moveUp([
+        [0,0,0,0],
+        [0,0,0,0],
+        [2,0,0,0],
+        [2,0,0,0]
+    ], 0), [4, 0, 0, 0]))
+    console.assert(equateLists(moveUp([
+        [2,0,0,0],
+        [2,0,0,0],
+        [2,0,0,0],
+        [2,0,0,0]
+    ], 0), [4, 4, 0, 0]))
+}
+
+
+// a set of tests for getColumn2DGrid
 function createColumn2DGridTests() {
-    console.assert(equateLists(createColumn2DGrid(grid, 0), [1, 0, 0, 0]))
+    console.assert(equateLists(getColumn2DGrid([
+        [0,0,0,0],
+        [0,0,0,0],
+        [0,0,0,0],
+        [1,0,0,0]
+    ], 0), [0, 0, 0, 1]))
 }
 
 
