@@ -171,6 +171,133 @@ function moveDown(input2048Grid, columnToMoveIndex) {
 }
 
 
+// spawns a randomly placed 2 in the 2048 grid
+function spawnRandomTwo() {
+    let randomRowIndex = int(random(grid.length - 1))
+    let randomColumnIndex = int(random(grid.length - 1))
+
+    while (grid[randomRowIndex][randomColumnIndex] !== 0) {
+        randomRowIndex = int(random(grid.length - 1))
+        randomColumnIndex = int(random(grid.length - 1))
+
+        console.log(randomRowIndex)
+        console.log(randomColumnIndex)
+    }
+
+    grid[randomRowIndex][randomColumnIndex] = 2
+}
+
+
+function keyPressed() {
+    /* stop sketch */
+    if (keyCode === 97) { /* numpad 1 */
+        noLoop()
+        instructions.html(`<pre>
+        sketch stopped</pre>`)
+    }
+
+    if (keyCode === LEFT_ARROW || key === "a") {
+        for (let i = 0; i < grid.length; i++) {
+            grid[i] = moveLeft(grid[i])
+        }
+        spawnRandomTwo()
+        printGrid()
+    }
+
+    if (keyCode === RIGHT_ARROW || key === "d") {
+        for (let i = 0; i < grid.length; i++) {
+            grid[i] = moveRight(grid[i])
+        }
+        spawnRandomTwo()
+        printGrid()
+    }
+
+    if (keyCode === DOWN_ARROW || key === "s") {
+        for (let i = 0; i < grid.length; i++) {
+            let column = moveDown(grid, i)
+            // update all columns
+            for (let j = 0; j < grid.length; j++) {
+                grid[j][i] = column[j]
+            }
+        }
+
+        spawnRandomTwo()
+        printGrid()
+    }
+
+    if (keyCode === UP_ARROW || key === "w") {
+        for (let i = 0; i < grid.length; i++) {
+            let column = moveUp(grid, i)
+            // update all columns
+            for (let j = 0; j < grid.length; j++) {
+                grid[j][i] = column[j]
+            }
+        }
+        spawnRandomTwo()
+        printGrid()
+    }
+}
+
+
+// prints the 2048 grid
+function printGrid() {
+    console.clear()
+
+    let printedGridString = ""
+
+    for (let row of grid) {
+        printedGridString += JSON.stringify(row) + "\n"
+    }
+
+    console.log(printedGridString)
+}
+
+
+/** 🧹 shows debugging info using text() 🧹 */
+class CanvasDebugCorner {
+    constructor(lines) {
+        this.size = lines
+        this.debugMsgList = [] /* initialize all elements to empty string */
+        for (let i in lines)
+            this.debugMsgList[i] = ''
+    }
+
+    setText(text, index) {
+        if (index >= this.size) {
+            this.debugMsgList[0] = `${index} ← index>${this.size} not supported`
+        } else this.debugMsgList[index] = text
+    }
+
+    show() {
+        textFont(font, 14)
+
+        const LEFT_MARGIN = 10
+        const DEBUG_Y_OFFSET = height - 10 /* floor of debug corner */
+        const LINE_SPACING = 2
+        const LINE_HEIGHT = textAscent() + textDescent() + LINE_SPACING
+
+        /* semi-transparent background */
+        fill(0, 0, 0, 10)
+        rectMode(CORNERS)
+        const TOP_PADDING = 3 /* extra padding on top of the 1st line */
+        rect(
+            0,
+            height,
+            width,
+            DEBUG_Y_OFFSET - LINE_HEIGHT * this.debugMsgList.length - TOP_PADDING
+        )
+
+        fill(0, 0, 100, 100) /* white */
+        strokeWeight(0)
+
+        for (let index in this.debugMsgList) {
+            const msg = this.debugMsgList[index]
+            text(msg, LEFT_MARGIN, DEBUG_Y_OFFSET - LINE_HEIGHT * index)
+        }
+    }
+}
+
+
 // a set of tests for slide()
 function slideTests() {
     console.assert(equateLists(slide([2,0,0,0]), [0,0,0,2]))
@@ -288,105 +415,4 @@ function moveDownTests() {
         [2,0,0,0],
         [2,0,0,0]
     ], 0), [0, 0, 4, 4]))
-}
-
-
-function keyPressed() {
-    /* stop sketch */
-    if (keyCode === 97) { /* numpad 1 */
-        noLoop()
-        instructions.html(`<pre>
-        sketch stopped</pre>`)
-    }
-
-    if (keyCode === LEFT_ARROW || key === "a") {
-        grid[0] = moveLeft(grid[0])
-        printGrid()
-    }
-
-    if (keyCode === RIGHT_ARROW || key === "d") {
-        grid[0] = moveRight(grid[0])
-        printGrid()
-    }
-
-    if (keyCode === DOWN_ARROW || key === "s") {
-        let column = moveDown(grid, 0)
-
-        // update the first column
-        for (let i = 0; i < grid.length; i++) {
-            grid[i][0] = column[i]
-        }
-
-        printGrid()
-    }
-
-    if (keyCode === UP_ARROW || key === "w") {
-        let column = moveUp(grid, 0)
-
-        // update the first column
-        for (let i = 0; i < grid.length; i++) {
-            grid[i][0] = column[i]
-        }
-
-        printGrid()
-    }
-}
-
-
-// prints the 2048 grid
-function printGrid() {
-    console.clear()
-
-    let printedGridString = ""
-
-    for (let row of grid) {
-        printedGridString += JSON.stringify(row) + "\n"
-    }
-
-    print(printedGridString)
-}
-
-
-/** 🧹 shows debugging info using text() 🧹 */
-class CanvasDebugCorner {
-    constructor(lines) {
-        this.size = lines
-        this.debugMsgList = [] /* initialize all elements to empty string */
-        for (let i in lines)
-            this.debugMsgList[i] = ''
-    }
-
-    setText(text, index) {
-        if (index >= this.size) {
-            this.debugMsgList[0] = `${index} ← index>${this.size} not supported`
-        } else this.debugMsgList[index] = text
-    }
-
-    show() {
-        textFont(font, 14)
-
-        const LEFT_MARGIN = 10
-        const DEBUG_Y_OFFSET = height - 10 /* floor of debug corner */
-        const LINE_SPACING = 2
-        const LINE_HEIGHT = textAscent() + textDescent() + LINE_SPACING
-
-        /* semi-transparent background */
-        fill(0, 0, 0, 10)
-        rectMode(CORNERS)
-        const TOP_PADDING = 3 /* extra padding on top of the 1st line */
-        rect(
-            0,
-            height,
-            width,
-            DEBUG_Y_OFFSET - LINE_HEIGHT * this.debugMsgList.length - TOP_PADDING
-        )
-
-        fill(0, 0, 100, 100) /* white */
-        strokeWeight(0)
-
-        for (let index in this.debugMsgList) {
-            const msg = this.debugMsgList[index]
-            text(msg, LEFT_MARGIN, DEBUG_Y_OFFSET - LINE_HEIGHT * index)
-        }
-    }
 }
