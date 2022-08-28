@@ -11,6 +11,12 @@ let debugCorner /* output debug text in the bottom left corner of the canvas */
 // the 2048 grid represented by a 2D array. Can later be manipulated by tests.
 let grid
 
+// has the user won or lost?
+let gameFinished = false
+
+// the value required for the user to win
+const WINNING_VALUE = 512
+
 
 function preload() {
     font = loadFont('data/consola.ttf')
@@ -30,12 +36,14 @@ function setup() {
     debugCorner = new CanvasDebugCorner(5)
 
     grid = [
-            [2,2,2,2],
-            [2,2,2,2],
-            [2,2,2,2],
-            [2,2,2,2]
+            [0,0,0,0],
+            [0,0,0,0],
+            [0,0,0,0],
+            [0,0,0,0]
     ]
 
+    spawnRandomTwo()
+    spawnRandomTwo()
     slideTests()
     combineAdjacentTests()
     moveRightTests()
@@ -146,10 +154,12 @@ function moveLeft(input2048Row) {
 
 // finds a column in a 2D 2048 grid
 function getColumn2DGrid(input2048Grid, inputColumnIndex) {
+    let grid = [...input2048Grid]
+
     // a column created by this function
     let outputColumn = []
 
-    for (let row of input2048Grid) {
+    for (let row of grid) {
         outputColumn.push(row[inputColumnIndex])
     }
 
@@ -159,32 +169,41 @@ function getColumn2DGrid(input2048Grid, inputColumnIndex) {
 
 // takes an input 2048 grid, calls getColumn2DGrid, then moveLeft
 function moveUp(input2048Grid, columnToMoveIndex) {
-    let column = getColumn2DGrid(input2048Grid, columnToMoveIndex)
+    let column = getColumn2DGrid([...input2048Grid], columnToMoveIndex)
     return moveLeft(column)
 }
 
 
 // takes an input 2048 grid, calls getColumn2DGrid, then moveLeft
 function moveDown(input2048Grid, columnToMoveIndex) {
-    let column = getColumn2DGrid(input2048Grid, columnToMoveIndex)
+    let column = getColumn2DGrid([...input2048Grid], columnToMoveIndex)
     return moveRight(column)
 }
 
 
 // spawns a randomly placed 2 in the 2048 grid
 function spawnRandomTwo() {
-    let randomRowIndex = int(random(grid.length - 1))
-    let randomColumnIndex = int(random(grid.length - 1))
+    let randomRowIndex = int(random(grid.length))
+    let randomColumnIndex = int(random(grid.length))
 
-    while (grid[randomRowIndex][randomColumnIndex] !== 0) {
-        randomRowIndex = int(random(grid.length - 1))
-        randomColumnIndex = int(random(grid.length - 1))
+    // a limit on the number of times to reroll the random indices
+    let numTimesToCheck = 100
 
-        console.log(randomRowIndex)
-        console.log(randomColumnIndex)
+    let numTimesCurrentlyChecked = 0
+    while (grid[randomRowIndex][randomColumnIndex] !== 0 &&
+    numTimesToCheck > numTimesCurrentlyChecked) {
+        randomRowIndex = int(random(grid.length))
+        randomColumnIndex = int(random(grid.length))
+
+        // console.log(randomRowIndex)
+        // console.log(randomColumnIndex)
+        numTimesCurrentlyChecked++
     }
 
-    grid[randomRowIndex][randomColumnIndex] = 2
+    if (numTimesToCheck === numTimesCurrentlyChecked) {
+        return
+    }
+    grid[randomRowIndex][randomColumnIndex] = random([2, 4])
 }
 
 
@@ -196,45 +215,61 @@ function keyPressed() {
         sketch stopped</pre>`)
     }
 
-    if (keyCode === LEFT_ARROW || key === "a") {
-        for (let i = 0; i < grid.length; i++) {
-            grid[i] = moveLeft(grid[i])
-        }
-        spawnRandomTwo()
-        printGrid()
-    }
+    if (!gameFinished) {
+        if (keyCode === LEFT_ARROW || key === "a") {
+            for (let i = 0; i < grid.length; i++) {
+                grid[i] = moveLeft(grid[i])
+            }
 
-    if (keyCode === RIGHT_ARROW || key === "d") {
-        for (let i = 0; i < grid.length; i++) {
-            grid[i] = moveRight(grid[i])
+            spawnRandomTwo()
+            printGrid()
         }
-        spawnRandomTwo()
-        printGrid()
-    }
 
-    if (keyCode === DOWN_ARROW || key === "s") {
-        for (let i = 0; i < grid.length; i++) {
-            let column = moveDown(grid, i)
-            // update all columns
-            for (let j = 0; j < grid.length; j++) {
-                grid[j][i] = column[j]
+        if (keyCode === RIGHT_ARROW || key === "d") {
+            for (let i = 0; i < grid.length; i++) {
+                grid[i] = moveRight(grid[i])
+            }
+
+            spawnRandomTwo()
+            printGrid()
+        }
+
+        if (keyCode === DOWN_ARROW || key === "s") {
+            for (let i = 0; i < grid.length; i++) {
+                let column = moveDown(grid, i)
+                // update all columns
+                for (let j = 0; j < grid.length; j++) {
+                    grid[j][i] = column[j]
+                }
+            }
+
+            spawnRandomTwo()
+            printGrid()
+        }
+
+        if (keyCode === UP_ARROW || key === "w") {
+            for (let i = 0; i < grid.length; i++) {
+                let column = moveUp(grid, i)
+                // update all columns
+                for (let j = 0; j < grid.length; j++) {
+                    grid[j][i] = column[j]
+                }
+            }
+
+            spawnRandomTwo()
+            printGrid()
+        }
+
+        // has the user won?
+        for (let row of grid) {
+            for (let square of row) {
+                if (square === WINNING_VALUE) {
+                    noLoop()
+                    console.log("You won!")
+                    gameFinished = true
+                }
             }
         }
-
-        spawnRandomTwo()
-        printGrid()
-    }
-
-    if (keyCode === UP_ARROW || key === "w") {
-        for (let i = 0; i < grid.length; i++) {
-            let column = moveUp(grid, i)
-            // update all columns
-            for (let j = 0; j < grid.length; j++) {
-                grid[j][i] = column[j]
-            }
-        }
-        spawnRandomTwo()
-        printGrid()
     }
 }
 
