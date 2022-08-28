@@ -2,6 +2,11 @@
  *  @author Winry
  *  @date 2022.8.10
  *
+ *  Current bug class: Mutation error
+ *  Current bug description: Creating a variable from [...grid] and then
+ *  operating on it makes the variable before operation look like it's
+ *  already been acted on.
+ *
  */
 
 let font
@@ -132,7 +137,8 @@ function equateLists(list1, list2) {
 
 // calls slide(), combineAdjacent(), and then slide() again.
 function moveRight(input2048Row) {
-    let slid2048Row = slide(input2048Row)
+    let copied2048Row = [...input2048Row]
+    let slid2048Row = slide(copied2048Row)
 
     let combined2048Row = combineAdjacent(slid2048Row)
 
@@ -170,14 +176,14 @@ function getColumn2DGrid(input2048Grid, inputColumnIndex) {
 // takes an input 2048 grid, calls getColumn2DGrid, then moveLeft
 function moveUp(input2048Grid, columnToMoveIndex) {
     let column = getColumn2DGrid([...input2048Grid], columnToMoveIndex)
-    return moveLeft(column)
+    return moveLeft([...column])
 }
 
 
 // takes an input 2048 grid, calls getColumn2DGrid, then moveLeft
 function moveDown(input2048Grid, columnToMoveIndex) {
-    let column = getColumn2DGrid([...input2048Grid], columnToMoveIndex)
-    return moveRight(column)
+    let column = getColumn2DGrid([...input2048Grid], int(columnToMoveIndex))
+    return moveRight([...column])
 }
 
 
@@ -217,24 +223,33 @@ function keyPressed() {
 
     if (!gameFinished) {
         if (keyCode === LEFT_ARROW || key === "a") {
-            for (let i = 0; i < grid.length; i++) {
-                grid[i] = moveLeft(grid[i])
+            let previousGrid = [...grid]
+            console.log(grid)
+
+            for (let i = 0; i < previousGrid.length; i++) {
+                previousGrid[i] = moveLeft(previousGrid[i])
             }
 
             spawnRandomTwo()
-            printGrid()
+            // printGrid()
         }
 
         if (keyCode === RIGHT_ARROW || key === "d") {
+            let previousGrid = [...grid]
+            console.log(previousGrid)
+
             for (let i = 0; i < grid.length; i++) {
                 grid[i] = moveRight(grid[i])
             }
 
             spawnRandomTwo()
-            printGrid()
+            // printGrid()
         }
 
         if (keyCode === DOWN_ARROW || key === "s") {
+            let previousGrid = [...grid]
+            console.log(previousGrid)
+
             for (let i = 0; i < grid.length; i++) {
                 let column = moveDown(grid, i)
                 // update all columns
@@ -244,10 +259,13 @@ function keyPressed() {
             }
 
             spawnRandomTwo()
-            printGrid()
+            // printGrid()
         }
 
         if (keyCode === UP_ARROW || key === "w") {
+            let previousGrid = [...grid]
+            console.log(previousGrid)
+
             for (let i = 0; i < grid.length; i++) {
                 let column = moveUp(grid, i)
                 // update all columns
@@ -257,7 +275,7 @@ function keyPressed() {
             }
 
             spawnRandomTwo()
-            printGrid()
+            // printGrid()
         }
 
         // has the user won?
