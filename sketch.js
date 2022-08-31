@@ -121,7 +121,10 @@ function combineAdjacent(input2048Row) {
 
 
 // a for loop that returns whether two lists are equal.
-function equateLists(list1, list2) {
+function equateLists(inputList1, inputList2) {
+    let list1 = [...inputList1]
+    let list2 = [...inputList2]
+
     if (list1.length !== list2.length) {
         return false
     }
@@ -175,14 +178,18 @@ function getColumn2DGrid(input2048Grid, inputColumnIndex) {
 
 // takes an input 2048 grid, calls getColumn2DGrid, then moveLeft
 function moveUp(input2048Grid, columnToMoveIndex) {
-    let column = getColumn2DGrid([...input2048Grid], columnToMoveIndex)
+    let grid = [...input2048Grid]
+
+    let column = getColumn2DGrid(grid, columnToMoveIndex)
     return moveLeft([...column])
 }
 
 
 // takes an input 2048 grid, calls getColumn2DGrid, then moveLeft
 function moveDown(input2048Grid, columnToMoveIndex) {
-    let column = getColumn2DGrid([...input2048Grid], int(columnToMoveIndex))
+    let grid = [...input2048Grid]
+
+    let column = getColumn2DGrid(grid, columnToMoveIndex)
     return moveRight([...column])
 }
 
