@@ -62,23 +62,40 @@ function setup() {
     moveDownTests()
 
     printGrid()
+
+
+    // I'm trying to use the same names for different variables, so I can
+    // wrap my code in braces
     {
         let list = [[1]]
         let previousList = [...list]
         print(list)
         print(previousList)
 
-        list[0][0] = 0
-        previousList[0][0] = 0
+        list = [[2]]
+        previousList = [[2]]
     }
 
-    let list = [0]
-    let previousList = [...list]
-    print(list)
-    print(previousList)
+    {
+        let list = [0]
+        let previousList = [...list]
+        print(list)
+        print(previousList)
 
-    list.push(10)
-    previousList.push(10)
+        list.push(10)
+        previousList.push(10)
+    }
+
+
+    let list = [[1]]
+    let listToBeUpdated = [[0]]
+    print(list)
+
+    listToBeUpdated.push([0])
+
+    list = [...listToBeUpdated]
+
+
 }
 
 
