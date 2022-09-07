@@ -62,6 +62,23 @@ function setup() {
     moveDownTests()
 
     printGrid()
+    {
+        let list = [[1]]
+        let previousList = [...list]
+        print(list)
+        print(previousList)
+
+        list[0][0] = 0
+        previousList[0][0] = 0
+    }
+
+    let list = [0]
+    let previousList = [...list]
+    print(list)
+    print(previousList)
+
+    list.push(10)
+    previousList.push(10)
 }
 
 
@@ -240,9 +257,8 @@ function keyPressed() {
     if (!gameFinished) {
         if (keyCode === LEFT_ARROW || key === "a") {
             let previousGrid = [...grid]
-            console.log(grid)
 
-            for (let i = 0; i < previousGrid.length; i++) {
+            for (let i = 0; i < grid.length; i++) {
                 grid[i] = moveLeft(grid[i])
             }
 
@@ -252,46 +268,57 @@ function keyPressed() {
 
         if (keyCode === RIGHT_ARROW || key === "d") {
             let previousGrid = [...grid]
-            console.log(previousGrid)
 
             for (let i = 0; i < grid.length; i++) {
                 grid[i] = moveRight(grid[i])
             }
 
             spawnRandomTwo()
-            // printGrid()
+            printGrid()
         }
 
         if (keyCode === DOWN_ARROW || key === "s") {
-            let previousGrid = [...grid]
-            print(previousGrid)
+            let gridToBeUpdated = [
+                [0,0,0,0],
+                [0,0,0,0],
+                [0,0,0,0],
+                [0,0,0,0]
+            ]
 
             for (let i = 0; i < grid.length; i++) {
                 let column = moveDown(grid, i)
                 // update all columns
                 for (let j = 0; j < grid.length; j++) {
-                    grid[j][i] = column[j]
+                    gridToBeUpdated[j][i] = column[j]
                 }
             }
-            //
-            // spawnRandomTwo()
-            // printGrid()
+
+            grid = [...gridToBeUpdated]
+
+            spawnRandomTwo()
+            printGrid()
         }
 
         if (keyCode === UP_ARROW || key === "w") {
-            let previousGrid = [...grid]
-            print(previousGrid)
+            let gridToBeUpdated = [
+                [0,0,0,0],
+                [0,0,0,0],
+                [0,0,0,0],
+                [0,0,0,0]
+            ]
 
-            // for (let i = 0; i < grid.length; i++) {
-            //     let column = moveUp(grid, i)
-            //     // update all columns
-            //     for (let j = 0; j < grid.length; j++) {
-            //         grid[j][i] = column[j]
-            //     }
-            // }
-            //
+            for (let i = 0; i < grid.length; i++) {
+                let column = moveUp(grid, i)
+                // update all columns
+                for (let j = 0; j < grid.length; j++) {
+                    gridToBeUpdated[j][i] = column[j]
+                }
+            }
+
+            grid = [...gridToBeUpdated]
+
             spawnRandomTwo()
-            // printGrid()
+            printGrid()
         }
 
         // has the user won?
