@@ -64,38 +64,36 @@ function setup() {
     printGrid()
 
 
-    // I'm trying to use the same names for different variables, so I can
-    // wrap my code in braces
-    {
-        let list = [[1]]
-        let previousList = [...list]
-        print(list)
-        print(previousList)
-
-        list = [[2]]
-        previousList = [[2]]
-    }
-
-    {
-        let list = [0]
-        let previousList = [...list]
-        print(list)
-        print(previousList)
-
-        list.push(10)
-        previousList.push(10)
-    }
-
-
-    let list = [[1]]
-    let listToBeUpdated = [[0]]
-    print(list)
-
-    listToBeUpdated.push([0])
-
-    list = [...listToBeUpdated]
-
-
+    // // I'm trying to use the same names for different variables, so I can
+    // // wrap my code in braces
+    // {
+    //     let list = [[1]]
+    //     let previousList = [...list]
+    //     print(list)
+    //     print(previousList)
+    //
+    //     list = [[2]]
+    //     previousList = [[2]]
+    // }
+    //
+    // {
+    //     let list = [0]
+    //     let previousList = [...list]
+    //     print(list)
+    //     print(previousList)
+    //
+    //     list.push(10)
+    //     previousList.push(10)
+    // }
+    //
+    //
+    // let list = [[1]]
+    // let listToBeUpdated = [[0]]
+    // print(list)
+    //
+    // listToBeUpdated.push([0])
+    //
+    // list = [...listToBeUpdated]
 }
 
 
@@ -172,6 +170,25 @@ function equateLists(inputList1, inputList2) {
             return false
         }
     }
+    return true
+}
+
+
+// a for loop that returns whether two nested lists are equal using equateLists.
+function equateNestedLists(inputNestedList1, inputNestedList2) {
+    let list1 = [...inputNestedList1]
+    let list2 = [...inputNestedList2]
+
+    if (list1.length !== list2.length) {
+        return false
+    }
+
+    for (let i = 0; i < list1.length; i++) {
+        if (!equateLists(list1[i], list2[i])) {
+            return false
+        }
+    }
+
     return true
 }
 
@@ -330,6 +347,10 @@ function keyPressed() {
                 for (let j = 0; j < grid.length; j++) {
                     gridToBeUpdated[j][i] = column[j]
                 }
+            }
+
+            if (equateNestedLists(grid, gridToBeUpdated)) {
+                return
             }
 
             grid = [...gridToBeUpdated]
