@@ -296,6 +296,10 @@ function keyPressed() {
                 grid[i] = moveLeft(grid[i])
             }
 
+            if (equateNestedLists(grid, previousGrid)) {
+                return
+            }
+
             spawnRandomTwo()
             printGrid()
         }
@@ -305,6 +309,10 @@ function keyPressed() {
 
             for (let i = 0; i < grid.length; i++) {
                 grid[i] = moveRight(grid[i])
+            }
+
+            if (equateNestedLists(grid, previousGrid)) {
+                return
             }
 
             spawnRandomTwo()
@@ -325,6 +333,10 @@ function keyPressed() {
                 for (let j = 0; j < grid.length; j++) {
                     gridToBeUpdated[j][i] = column[j]
                 }
+            }
+
+            if (equateNestedLists(grid, gridToBeUpdated)) {
+                return
             }
 
             grid = [...gridToBeUpdated]
