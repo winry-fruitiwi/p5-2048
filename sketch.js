@@ -320,20 +320,7 @@ function keyPressed() {
         }
 
         if (keyCode === DOWN_ARROW || key === "s") {
-            let gridToBeUpdated = [
-                [0,0,0,0],
-                [0,0,0,0],
-                [0,0,0,0],
-                [0,0,0,0]
-            ]
-
-            for (let i = 0; i < grid.length; i++) {
-                let column = moveDown(grid, i)
-                // update all columns
-                for (let j = 0; j < grid.length; j++) {
-                    gridToBeUpdated[j][i] = column[j]
-                }
-            }
+            let gridToBeUpdated = moveAllDown()
 
             if (equateNestedLists(grid, gridToBeUpdated)) {
                 return
@@ -346,20 +333,7 @@ function keyPressed() {
         }
 
         if (keyCode === UP_ARROW || key === "w") {
-            let gridToBeUpdated = [
-                [0,0,0,0],
-                [0,0,0,0],
-                [0,0,0,0],
-                [0,0,0,0]
-            ]
-
-            for (let i = 0; i < grid.length; i++) {
-                let column = moveUp(grid, i)
-                // update all columns
-                for (let j = 0; j < grid.length; j++) {
-                    gridToBeUpdated[j][i] = column[j]
-                }
-            }
+            let gridToBeUpdated = moveAllUp()
 
             if (equateNestedLists(grid, gridToBeUpdated)) {
                 return
@@ -384,14 +358,14 @@ function keyPressed() {
 
         // the beginning of checks for if the user has lost
         // check 1: are all cells filled?
-        // for (let row of grid) {
-        //     for (let cell of row) {
-        //         if (cell === 0) {
-        //             print("you're still alive!")
-        //             return
-        //         }
-        //     }
-        // }
+        for (let row of grid) {
+            for (let cell of row) {
+                if (cell === 0) {
+                    print("you're still alive!")
+                    return
+                }
+            }
+        }
 
         // check 2: does moveRight do anything?
         let gridCopy = [...grid]
@@ -428,7 +402,13 @@ function keyPressed() {
         }
 
 
-        // check 5: does moveDown do anything? (unimplemented)
+        // check 5: does moveDown do anything?
+        updatedGrid = moveAllDown()
+
+        if (!equateNestedLists(grid, updatedGrid)) {
+            print("you're still alive!")
+            return
+        }
 
 
         // if all the checks pass, then the user loses!
@@ -666,6 +646,27 @@ function moveAllUp() {
 
     for (let i = 0; i < grid.length; i++) {
         let column = moveUp(grid, i)
+        // update all columns
+        for (let j = 0; j < grid.length; j++) {
+            gridToBeUpdated[j][i] = column[j]
+        }
+    }
+
+    return gridToBeUpdated
+}
+
+
+// moves all numbers in the 2048 grid down.
+function moveAllDown() {
+    let gridToBeUpdated = [
+        [0,0,0,0],
+        [0,0,0,0],
+        [0,0,0,0],
+        [0,0,0,0]
+    ]
+
+    for (let i = 0; i < grid.length; i++) {
+        let column = moveDown(grid, i)
         // update all columns
         for (let j = 0; j < grid.length; j++) {
             gridToBeUpdated[j][i] = column[j]
