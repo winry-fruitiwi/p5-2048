@@ -381,6 +381,59 @@ function keyPressed() {
                 }
             }
         }
+
+        // the beginning of checks for if the user has lost
+        // check 1: are all cells filled?
+        // for (let row of grid) {
+        //     for (let cell of row) {
+        //         if (cell === 0) {
+        //             print("you're still alive!")
+        //             return
+        //         }
+        //     }
+        // }
+
+        // check 2: does moveRight do anything?
+        let gridCopy = [...grid]
+
+        for (let i = 0; i < gridCopy.length; i++) {
+            gridCopy[i] = moveRight(gridCopy[i])
+        }
+
+        if (!equateNestedLists(gridCopy, grid)) {
+            print("you're still alive!")
+            return
+        }
+
+
+        // check 3: does moveLeft do anything?
+        gridCopy = [...grid]
+
+        for (let i = 0; i < gridCopy.length; i++) {
+            gridCopy[i] = moveLeft(gridCopy[i])
+        }
+
+        if (!equateNestedLists(gridCopy, grid)) {
+            print("you're still alive!")
+            return
+        }
+
+
+        // check 4: does moveUp do anything?
+        let updatedGrid = moveAllUp()
+
+        if (!equateNestedLists(grid, updatedGrid)) {
+            print("you're still alive!")
+            return
+        }
+
+
+        // check 5: does moveDown do anything? (unimplemented)
+
+
+        // if all the checks pass, then the user loses!
+        print("game over! (make sure to analyze)")
+        gameFinished = true
     }
 }
 
@@ -599,4 +652,25 @@ function moveDownTests() {
         [2,0,0,0],
         [2,0,0,0]
     ], 0), [0, 0, 4, 4]))
+}
+
+
+// moves all numbers in the 2048 grid up.
+function moveAllUp() {
+    let gridToBeUpdated = [
+        [0,0,0,0],
+        [0,0,0,0],
+        [0,0,0,0],
+        [0,0,0,0]
+    ]
+
+    for (let i = 0; i < grid.length; i++) {
+        let column = moveUp(grid, i)
+        // update all columns
+        for (let j = 0; j < grid.length; j++) {
+            gridToBeUpdated[j][i] = column[j]
+        }
+    }
+
+    return gridToBeUpdated
 }
