@@ -2,10 +2,10 @@
  *  @author Winry
  *  @date 2022.8.10
  *
- *  Current bug class: Mutation error
- *  Current bug description: Creating a variable from [...grid] and then
- *  operating on it makes the variable before operation look like it's
- *  already been acted on.
+ *  Status: Now beginning to implement visual effects.
+ *  Classes include GameBoard, Number
+ *  GameBoard must show all numbers. Does not matter if number is a Number
+ *  or a number (haha).
  *
  */
 
@@ -53,47 +53,8 @@ function setup() {
 
     spawnRandomTwo()
     spawnRandomTwo()
-    slideTests()
-    combineAdjacentTests()
-    moveRightTests()
-    moveLeftTests()
-    createColumn2DGridTests()
-    moveUpTests()
-    moveDownTests()
 
     printGrid()
-
-
-    // // I'm trying to use the same names for different variables, so I can
-    // // wrap my code in braces
-    // {
-    //     let list = [[1]]
-    //     let previousList = [...list]
-    //     print(list)
-    //     print(previousList)
-    //
-    //     list = [[2]]
-    //     previousList = [[2]]
-    // }
-    //
-    // {
-    //     let list = [0]
-    //     let previousList = [...list]
-    //     print(list)
-    //     print(previousList)
-    //
-    //     list.push(10)
-    //     previousList.push(10)
-    // }
-    //
-    //
-    // let list = [[1]]
-    // let listToBeUpdated = [[0]]
-    // print(list)
-    //
-    // listToBeUpdated.push([0])
-    //
-    // list = [...listToBeUpdated]
 }
 
 
@@ -263,8 +224,6 @@ function spawnRandomTwo() {
         randomRowIndex = int(random(grid.length))
         randomColumnIndex = int(random(grid.length))
 
-        // console.log(randomRowIndex)
-        // console.log(randomColumnIndex)
         numTimesCurrentlyChecked++
     }
 
@@ -285,7 +244,6 @@ function keyPressed() {
 
     if (key === '`') { /* toggle debug corner visibility */
         debugCorner.visible = !debugCorner.visible
-        // console.log(`debugCorner visibility set to ${debugCorner.visible}`)
     }
 
     if (!gameFinished) {
@@ -361,7 +319,6 @@ function keyPressed() {
         for (let row of grid) {
             for (let cell of row) {
                 if (cell === 0) {
-                    print("you're still alive!")
                     return
                 }
             }
@@ -375,7 +332,6 @@ function keyPressed() {
         }
 
         if (!equateNestedLists(gridCopy, grid)) {
-            print("you're still alive!")
             return
         }
 
@@ -388,7 +344,6 @@ function keyPressed() {
         }
 
         if (!equateNestedLists(gridCopy, grid)) {
-            print("you're still alive!")
             return
         }
 
@@ -397,7 +352,6 @@ function keyPressed() {
         let updatedGrid = moveAllUp()
 
         if (!equateNestedLists(grid, updatedGrid)) {
-            print("you're still alive!")
             return
         }
 
@@ -406,7 +360,6 @@ function keyPressed() {
         updatedGrid = moveAllDown()
 
         if (!equateNestedLists(grid, updatedGrid)) {
-            print("you're still alive!")
             return
         }
 
