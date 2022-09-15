@@ -124,6 +124,40 @@ class GameBoard {
     }
 
 
+    moveAllDown() {
+        let gridToBeUpdated = [
+            [0,0,0,0],
+            [0,0,0,0],
+            [0,0,0,0],
+            [0,0,0,0]
+        ]
+
+        for (let i = 0; i < this.grid.length; i++) {
+            let column = moveDown(this.grid, i)
+            // update all columns
+            for (let j = 0; j < this.grid.length; j++) {
+                gridToBeUpdated[j][i] = column[j]
+            }
+        }
+
+        return gridToBeUpdated
+    }
+
+
+    printGrid() {
+        let gridToBePrinted = [...this.grid]
+        console.clear()
+
+        let printedGridString = ""
+
+        for (let row of gridToBePrinted) {
+            printedGridString += JSON.stringify(row) + "\n"
+        }
+
+        console.log(printedGridString)
+    }
+
+
     // display a 2D grid of numbers in rows and columns. Later, I'll also
     // give them backgrounds. The GameBoard itself is not displayed; rather,
     // the numbers inside are the ones being displayed. When I convert to

@@ -58,6 +58,9 @@ function setup() {
     spawnRandomTwo()
 
     printGrid()
+
+    gameBoard = new GameBoard()
+    gameBoard.printGrid()
 }
 
 
