@@ -24,6 +24,9 @@ let gameFinished = false
 // the value required for the user to win
 const WINNING_VALUE = 512
 
+// the GameBoard that represents this game!
+let gameBoard
+
 
 function preload() {
     font = loadFont('data/consola.ttf')
