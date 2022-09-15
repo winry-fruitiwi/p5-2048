@@ -17,6 +17,9 @@ class GameBoard {
         this.gameWon = false
         this.gameLost = false
         this.gameFinished = false
+
+        this.spawnRandomNumber()
+        this.spawnRandomNumber()
     }
 
     // copy over most code for back-end functions here, just make sure that
@@ -155,6 +158,38 @@ class GameBoard {
         }
 
         console.log(printedGridString)
+    }
+
+
+    spawnRandomNumber() {
+        let randomRowIndex = int(random(this.grid.length))
+        let randomColumnIndex = int(random(this.grid.length))
+
+        // a limit on the number of times to reroll the random indices
+        let numTimesToCheck = 100
+
+        let numTimesCurrentlyChecked = 0
+        while (this.grid[randomRowIndex][randomColumnIndex] !== 0 &&
+        numTimesToCheck > numTimesCurrentlyChecked) {
+            randomRowIndex = int(random(this.grid.length))
+            randomColumnIndex = int(random(this.grid.length))
+
+            numTimesCurrentlyChecked++
+
+            if (numTimesToCheck === numTimesCurrentlyChecked) {
+                return
+            }
+        }
+
+        let randomTwoOrFour
+
+        if (random() > 0.8) {
+            randomTwoOrFour = 4
+        } else {
+            randomTwoOrFour = 2
+        }
+
+        this.grid[randomRowIndex][randomColumnIndex] = randomTwoOrFour
     }
 
 
