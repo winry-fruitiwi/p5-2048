@@ -16,7 +16,7 @@ let instructions
 let debugCorner /* output debug text in the bottom left corner of the canvas */
 
 // the 2048 grid represented by a 2D array. Can later be manipulated by tests.
-let grid
+// let grid
 
 // has the user won or lost?
 let gameFinished = false
@@ -47,17 +47,17 @@ function setup() {
 
     debugCorner = new CanvasDebugCorner(5)
 
-    grid = [
-            [0,0,0,0],
-            [0,0,0,0],
-            [0,0,0,0],
-            [0,0,0,0]
-    ]
+    // grid = [
+    //         [0,0,0,0],
+    //         [0,0,0,0],
+    //         [0,0,0,0],
+    //         [0,0,0,0]
+    // ]
 
-    spawnRandomTwo()
-    spawnRandomTwo()
+    // spawnRandomNumber()
+    // spawnRandomNumber()
 
-    printGrid()
+    // printGrid()
 
     gameBoard = new GameBoard()
     gameBoard.printGrid()
@@ -217,7 +217,7 @@ function moveDown(input2048Grid, columnToMoveIndex) {
 
 
 // spawns a randomly placed 2 in the 2048 grid
-function spawnRandomTwo() {
+function spawnRandomNumber() {
     let randomRowIndex = int(random(grid.length))
     let randomColumnIndex = int(random(grid.length))
 
@@ -252,65 +252,65 @@ function keyPressed() {
         debugCorner.visible = !debugCorner.visible
     }
 
-    if (!gameFinished) {
+    if (!gameBoard.gameFinished) {
         if (keyCode === LEFT_ARROW || key === "a") {
-            let previousGrid = [...grid]
+            let previousGrid = [...gameBoard.grid]
 
-            for (let i = 0; i < grid.length; i++) {
-                grid[i] = moveLeft(grid[i])
+            for (let i = 0; i < gameBoard.grid.length; i++) {
+                gameBoard.grid[i] = moveLeft(gameBoard.grid[i])
             }
 
-            if (equateNestedLists(grid, previousGrid)) {
+            if (equateNestedLists(gameBoard.grid, previousGrid)) {
                 return
             }
 
-            spawnRandomTwo()
-            printGrid()
+            gameBoard.spawnRandomNumber()
+            gameBoard.printGrid()
         }
 
         if (keyCode === RIGHT_ARROW || key === "d") {
-            let previousGrid = [...grid]
+            let previousGrid = [...gameBoard.grid]
 
-            for (let i = 0; i < grid.length; i++) {
-                grid[i] = moveRight(grid[i])
+            for (let i = 0; i < gameBoard.grid.length; i++) {
+                gameBoard.grid[i] = moveRight(gameBoard.grid[i])
             }
 
-            if (equateNestedLists(grid, previousGrid)) {
+            if (equateNestedLists(gameBoard.grid, previousGrid)) {
                 return
             }
 
-            spawnRandomTwo()
-            printGrid()
+            gameBoard.spawnRandomNumber()
+            gameBoard.printGrid()
         }
 
         if (keyCode === DOWN_ARROW || key === "s") {
-            let gridToBeUpdated = moveAllDown()
+            let gridToBeUpdated = gameBoard.moveAllDown()
 
-            if (equateNestedLists(grid, gridToBeUpdated)) {
+            if (equateNestedLists(gameBoard.grid, gridToBeUpdated)) {
                 return
             }
 
-            grid = [...gridToBeUpdated]
+            gameBoard.grid = [...gridToBeUpdated]
 
-            spawnRandomTwo()
-            printGrid()
+            gameBoard.spawnRandomNumber()
+            gameBoard.printGrid()
         }
 
         if (keyCode === UP_ARROW || key === "w") {
-            let gridToBeUpdated = moveAllUp()
+            let gridToBeUpdated = gameBoard.moveAllUp()
 
-            if (equateNestedLists(grid, gridToBeUpdated)) {
+            if (equateNestedLists(gameBoard.grid, gridToBeUpdated)) {
                 return
             }
 
-            grid = [...gridToBeUpdated]
+            gameBoard.grid = [...gridToBeUpdated]
 
-            spawnRandomTwo()
-            printGrid()
+            gameBoard.spawnRandomNumber()
+            gameBoard.printGrid()
         }
 
         // has the user won?
-        for (let row of grid) {
+        for (let row of gameBoard.grid) {
             for (let square of row) {
                 if (square === WINNING_VALUE) {
                     noLoop()
@@ -322,7 +322,7 @@ function keyPressed() {
 
         // the beginning of checks for if the user has lost
         // check 1: are all cells filled?
-        for (let row of grid) {
+        for (let row of gameBoard.grid) {
             for (let cell of row) {
                 if (cell === 0) {
                     return
@@ -331,48 +331,48 @@ function keyPressed() {
         }
 
         // check 2: does moveRight do anything?
-        let gridCopy = [...grid]
+        let gridCopy = [...gameBoard.grid]
 
         for (let i = 0; i < gridCopy.length; i++) {
-            gridCopy[i] = moveRight(gridCopy[i])
+            gridCopy[i] = gameBoard.moveRight(gridCopy[i])
         }
 
-        if (!equateNestedLists(gridCopy, grid)) {
+        if (!equateNestedLists(gridCopy, gameBoard.grid)) {
             return
         }
 
 
         // check 3: does moveLeft do anything?
-        gridCopy = [...grid]
+        gridCopy = [...gameBoard.grid]
 
         for (let i = 0; i < gridCopy.length; i++) {
-            gridCopy[i] = moveLeft(gridCopy[i])
+            gridCopy[i] = gameBoard.moveLeft(gridCopy[i])
         }
 
-        if (!equateNestedLists(gridCopy, grid)) {
+        if (!equateNestedLists(gridCopy, gameBoard.grid)) {
             return
         }
 
 
         // check 4: does moveUp do anything?
-        let updatedGrid = moveAllUp()
+        let updatedGrid = gameBoard.moveAllUp()
 
-        if (!equateNestedLists(grid, updatedGrid)) {
+        if (!equateNestedLists(gameBoard.grid, updatedGrid)) {
             return
         }
 
 
         // check 5: does moveDown do anything?
-        updatedGrid = moveAllDown()
+        updatedGrid = gameBoard.moveAllDown()
 
-        if (!equateNestedLists(grid, updatedGrid)) {
+        if (!equateNestedLists(gameBoard.grid, updatedGrid)) {
             return
         }
 
 
         // if all the checks pass, then the user loses!
         print("game over! (make sure to analyze)")
-        gameFinished = true
+        gameBoard.gameFinished = true
     }
 }
 
@@ -603,10 +603,10 @@ function moveAllUp() {
         [0,0,0,0]
     ]
 
-    for (let i = 0; i < grid.length; i++) {
-        let column = moveUp(grid, i)
+    for (let i = 0; i < gameBoard.grid.length; i++) {
+        let column = gameBoard.moveUp(gameBoard.grid, i)
         // update all columns
-        for (let j = 0; j < grid.length; j++) {
+        for (let j = 0; j < gameBoard.grid.length; j++) {
             gridToBeUpdated[j][i] = column[j]
         }
     }
@@ -624,10 +624,10 @@ function moveAllDown() {
         [0,0,0,0]
     ]
 
-    for (let i = 0; i < grid.length; i++) {
-        let column = moveDown(grid, i)
+    for (let i = 0; i < gameBoard.grid.length; i++) {
+        let column = gameBoard.moveDown(gameBoard.grid, i)
         // update all columns
-        for (let j = 0; j < grid.length; j++) {
+        for (let j = 0; j < gameBoard.grid.length; j++) {
             gridToBeUpdated[j][i] = column[j]
         }
     }

@@ -8,19 +8,28 @@ class GameBoard {
     // variables: grid (2D array), gameWon (bool), gameLost (bool),
     // gameFinished (bool)
     constructor() {
+        this.initializeGrid()
+
+        this.gameWon = false
+        this.gameLost = false
+        this.gameFinished = false
+    }
+
+
+    // initializes the grid. This will be important when I add Number.js so
+    // that the constructor doesn't look messy and can be minimized.
+    initializeGrid() {
         this.grid = [
             [0,0,0,0],
             [0,0,0,0],
             [0,0,0,0],
             [0,0,0,0]
         ]
-        this.gameWon = false
-        this.gameLost = false
-        this.gameFinished = false
 
         this.spawnRandomNumber()
         this.spawnRandomNumber()
     }
+
 
     // copy over most code for back-end functions here, just make sure that
     // they use this.grid and copy it correctly, then re-initialize it.
@@ -74,9 +83,9 @@ class GameBoard {
         let copied2048Row = [...input2048Row]
         let slid2048Row = slide(copied2048Row)
 
-        let combined2048Row = combineAdjacent(slid2048Row)
+        let combined2048Row = this.combineAdjacent(slid2048Row)
 
-        return slide(combined2048Row)
+        return this.slide(combined2048Row)
     }
 
 
@@ -84,7 +93,7 @@ class GameBoard {
         let copied2048Row = [...input2048Row]
         copied2048Row.reverse()
 
-        let output2048Row = moveRight(copied2048Row)
+        let output2048Row = this.moveRight(copied2048Row)
 
         output2048Row.reverse()
         return output2048Row
@@ -94,8 +103,22 @@ class GameBoard {
     moveDown(input2048Grid, columnToMoveIndex) {
         let grid = [...input2048Grid]
 
-        let column = getColumn2DGrid(grid, columnToMoveIndex)
-        return moveRight([...column])
+        let column = this.getColumn2DGrid(grid, columnToMoveIndex)
+        return this.moveRight([...column])
+    }
+
+
+    getColumn2DGrid(input2048Grid, inputColumnIndex) {
+        let grid = [...input2048Grid]
+
+        // a column created by this function
+        let outputColumn = []
+
+        for (let row of grid) {
+            outputColumn.push(row[inputColumnIndex])
+        }
+
+        return outputColumn
     }
 
 
@@ -103,7 +126,7 @@ class GameBoard {
         let grid = [...input2048Grid]
 
         let column = getColumn2DGrid(grid, columnToMoveIndex)
-        return moveLeft([...column])
+        return this.moveLeft([...column])
     }
 
 
@@ -116,7 +139,7 @@ class GameBoard {
         ]
 
         for (let i = 0; i < this.grid.length; i++) {
-            let column = moveUp(this.grid, i)
+            let column = this.moveUp(this.grid, i)
             // update all columns
             for (let j = 0; j < this.grid.length; j++) {
                 gridToBeUpdated[j][i] = column[j]
@@ -136,7 +159,7 @@ class GameBoard {
         ]
 
         for (let i = 0; i < this.grid.length; i++) {
-            let column = moveDown(this.grid, i)
+            let column = this.moveDown(this.grid, i)
             // update all columns
             for (let j = 0; j < this.grid.length; j++) {
                 gridToBeUpdated[j][i] = column[j]
@@ -198,4 +221,7 @@ class GameBoard {
     // the numbers inside are the ones being displayed. When I convert to
     // using Number classes later, them I can use the GameBoard's show()
     // function to show all the Numbers instead.
+    show() {
+
+    }
 }
