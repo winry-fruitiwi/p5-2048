@@ -70,6 +70,8 @@ function draw() {
     if (frameCount > 3000)
         noLoop()
 
+    gameBoard.show()
+
     /* debugCorner needs to be last so its z-index is highest */
     debugCorner.setText(`frameCount: ${frameCount}`, 2)
     debugCorner.setText(`fps: ${frameRate().toFixed(0)}`, 1)
