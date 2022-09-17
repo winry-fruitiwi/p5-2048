@@ -222,13 +222,24 @@ class GameBoard {
     // using Number classes later, them I can use the GameBoard's show()
     // function to show all the Numbers instead.
     show() {
-        // where the text should be displayed
-        // let textDisplayPos = new p5.Vector()
+        // the width and height of each cell.
+        let w = 60
+        let h = 60
+
+        textAlign(CENTER)
+        push()
+
+        // assuming that the length of both rows and columns of the 2048
+        // grid is 4!
+        translate(width/2 - w * 2, height/2 - h * 2)
 
         for (let i = 0; i < this.grid.length; i++) {
             for (let j = 0; j < this.grid.length; j++) {
-                text(this.grid[i][j], j * 20, i * 20 + textAscent())
+                text(this.grid[i][j], j * w, i * h + textAscent())
             }
         }
+        pop()
+
+        textAlign(LEFT)
     }
 }
