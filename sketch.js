@@ -78,7 +78,7 @@ function draw() {
     debugCorner.setText(`fps: ${frameRate().toFixed(0)}`, 1)
     debugCorner.showBottom()
 
-    textFont(font, 34)
+    textFont(font, 24)
 }
 
 

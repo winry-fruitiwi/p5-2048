@@ -13,6 +13,10 @@ class GameBoard {
         this.gameWon = false
         this.gameLost = false
         this.gameFinished = false
+
+        // the board's dimensions on the canvas
+        this.width = 250
+        this.height = 250
     }
 
 
@@ -20,7 +24,7 @@ class GameBoard {
     // that the constructor doesn't look messy and can be minimized.
     initializeGrid() {
         this.grid = [
-            [0,0,0,0],
+            [32768,0,0,0],
             [0,0,0,0],
             [0,0,0,0],
             [0,0,0,0]
@@ -222,33 +226,44 @@ class GameBoard {
     // using Number classes later, them I can use the GameBoard's show()
     // function to show all the Numbers instead.
     show() {
-        // the width and height of each cell. Why is it width/4 + width/12?
-        // Suppose the width and height are both 100. So then this would
-        // evaluate to 25 + 25/3. We want one of the points to be at (0, 0),
-        // and the other 3 points to cover 100 pixels, or the width. So we
-        // multiply the expression I got by 3, and we get 75 + 25 = 100. The
-        // same applies to height. (whoops, I'm supposed to have 5 points.
-        // fencepost error!)
-        let w = width/4
-        let h = height/4
+        // the width and height of each cell.
+        let w = this.width/4
+        let h = this.height/4
 
         textAlign(CENTER)
-
 
         // assuming that the length of both rows and columns of the 2048
         // grid is 4!
 
         // push()
-        // translate(width/2 - w * 2, height/2 - h * 2)
+        // centers the grid in the canvas
+        translate(width/2 - w * 2, height/2 - h * 2)
+
+        noStroke()
+        fill(31, 12, 80)
+        rect(0, 0, this.width, this.height)
+        fill(0, 0, 100)
+
+        stroke(28, 14, 73)
+        strokeWeight(10)
+        // strokeCap(SQUARE)
+
+        for (let i = 0; i <= this.grid.length; i++) {
+            line(i*w, 0, i*w, this.height)
+        }
+
+        for (let i = 0; i <= this.grid.length; i++) {
+            line(0, i*h, this.width, i*h)
+        }
 
         for (let i = 0; i <= this.grid.length; i++) {
             for (let j = 0; j <= this.grid.length; j++) {
                 stroke(0, 0, 100)
-                strokeWeight(2)
-                point(j * w, i * h)
+                strokeWeight(1)
 
-                if (i < this.grid.length && j < this.grid.length) {
-                    noStroke()
+                if (i < this.grid.length && j < this.grid.length && this.grid[i][j] !== 0) {
+                    // noStroke()
+                    textStyle(BOLD)
                     text(this.grid[i][j], j*w+w/2, i*h+h/2 + textAscent()/2)
                 }
             }
