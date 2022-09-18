@@ -222,23 +222,40 @@ class GameBoard {
     // using Number classes later, them I can use the GameBoard's show()
     // function to show all the Numbers instead.
     show() {
-        // the width and height of each cell.
-        let w = 60
-        let h = 60
+        // the width and height of each cell. Why is it width/4 + width/12?
+        // Suppose the width and height are both 100. So then this would
+        // evaluate to 25 + 25/3. We want one of the points to be at (0, 0),
+        // and the other 3 points to cover 100 pixels, or the width. So we
+        // multiply the expression I got by 3, and we get 75 + 25 = 100. The
+        // same applies to height. (whoops, I'm supposed to have 5 points.
+        // fencepost error!)
+        let w = width/4
+        let h = height/4
 
         textAlign(CENTER)
-        push()
+
 
         // assuming that the length of both rows and columns of the 2048
         // grid is 4!
-        translate(width/2 - w * 2, height/2 - h * 2)
 
-        for (let i = 0; i < this.grid.length; i++) {
-            for (let j = 0; j < this.grid.length; j++) {
-                text(this.grid[i][j], j * w, i * h + textAscent())
+        // push()
+        // translate(width/2 - w * 2, height/2 - h * 2)
+
+        for (let i = 0; i <= this.grid.length; i++) {
+            for (let j = 0; j <= this.grid.length; j++) {
+                stroke(0, 0, 100)
+                strokeWeight(2)
+                point(j * w, i * h)
+
+                if (i < this.grid.length && j < this.grid.length) {
+                    noStroke()
+                    text(this.grid[i][j], j*w+w/2, i*h+h/2 + textAscent()/2)
+                }
             }
         }
-        pop()
+        // pop()
+
+        noStroke()
 
         textAlign(LEFT)
     }

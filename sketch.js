@@ -39,7 +39,7 @@ function setup() {
     let cnv = createCanvas(500, 500)
     cnv.parent('#canvas')
     colorMode(HSB, 360, 100, 100, 100)
-    textFont(font, 24)
+    textFont(font, 34)
 
     /* initialize instruction div */
     instructions = select('#ins')
@@ -78,7 +78,7 @@ function draw() {
     debugCorner.setText(`fps: ${frameRate().toFixed(0)}`, 1)
     debugCorner.showBottom()
 
-    textFont(font, 24)
+    textFont(font, 34)
 }
 
 
