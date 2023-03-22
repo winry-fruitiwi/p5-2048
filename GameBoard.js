@@ -8,8 +8,15 @@ class GameBoard {
     // variables: grid (2D array), gameWon (bool), gameLost (bool),
     // gameFinished (bool)
     constructor() {
+        // before anything else, initialize the 4x4 grid. If in
+        // 2048ForDummies mode in the future, make a 6x6 grid instead.
         this.initializeGrid()
 
+        // these three booleans determine if a game has been won or lost,
+        // and if one of them are true then the game has been finished.
+        // However, 2048 can continue if the user wants to when they win, so
+        // it's not necessarily true that gameFinished is true when gameWon
+        // is true.
         this.gameWon = false
         this.gameLost = false
         this.gameFinished = false
@@ -23,13 +30,15 @@ class GameBoard {
     // initializes the grid. This will be important when I add Number.js so
     // that the constructor doesn't look messy and can be minimized.
     initializeGrid() {
+        // create an empty grid
         this.grid = [
-            [32768,0,0,0],
+            [0,0,0,0],
             [0,0,0,0],
             [0,0,0,0],
             [0,0,0,0]
         ]
 
+        // spawn two random numbers inside the grid to construct a 2048 grid
         this.spawnRandomNumber()
         this.spawnRandomNumber()
     }
@@ -242,7 +251,7 @@ class GameBoard {
         noStroke()
         fill(31, 12, 80)
         rect(0, 0, this.width, this.height)
-        fill(0, 0, 100)
+        fill(28, 13, 46)
 
         stroke(28, 14, 73)
         strokeWeight(10)
@@ -258,13 +267,36 @@ class GameBoard {
 
         for (let i = 0; i <= this.grid.length; i++) {
             for (let j = 0; j <= this.grid.length; j++) {
-                stroke(0, 0, 100)
+                stroke(28, 13, 46)
                 strokeWeight(1)
 
-                if (i < this.grid.length && j < this.grid.length && this.grid[i][j] !== 0) {
+                if (i < this.grid.length &&
+                    j < this.grid.length &&
+                    this.grid[i][j] !== 0) {
                     // noStroke()
                     textStyle(BOLD)
+                    switch (str(this.grid[i][j]).length) {
+                        case 1:
+                            textFont(font, 24)
+                            break;
+                        case 2:
+                            textFont(font, 20)
+                            break;
+                        case 3:
+                            strokeWeight(1)
+                            textFont(font, 18)
+                            break;
+                        case 4:
+                            strokeWeight(0.5)
+                            textFont(font, 16)
+                            break;
+                        case 5:
+                            strokeWeight(0.5)
+                            textFont(font, 15)
+                            break;
+                    }
                     text(this.grid[i][j], j*w+w/2, i*h+h/2 + textAscent()/2)
+                    textFont(font, 24)
                 }
             }
         }

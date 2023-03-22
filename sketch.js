@@ -23,7 +23,7 @@ let debugCorner /* output debug text in the bottom left corner of the canvas */
 let gameFinished = false
 
 // the value required for the user to win
-const WINNING_VALUE = 512
+const WINNING_VALUE = 2048
 
 // the GameBoard that represents this game!
 let gameBoard
@@ -48,20 +48,12 @@ function setup() {
 
     debugCorner = new CanvasDebugCorner(5)
 
-    // grid = [
-    //         [0,0,0,0],
-    //         [0,0,0,0],
-    //         [0,0,0,0],
-    //         [0,0,0,0]
-    // ]
-
-    // spawnRandomNumber()
-    // spawnRandomNumber()
-
-    // printGrid()
-
     gameBoard = new GameBoard()
     gameBoard.printGrid()
+
+    gameBoard.show()
+
+    userWonOrLost()
 }
 
 
@@ -314,70 +306,7 @@ function keyPressed() {
             gameBoard.printGrid()
         }
 
-        // has the user won?
-        for (let row of gameBoard.grid) {
-            for (let square of row) {
-                if (square === WINNING_VALUE) {
-                    noLoop()
-                    console.log("You won!")
-                    gameFinished = true
-                }
-            }
-        }
-
-        // the beginning of checks for if the user has lost
-        // check 1: are all cells filled?
-        for (let row of gameBoard.grid) {
-            for (let cell of row) {
-                if (cell === 0) {
-                    return
-                }
-            }
-        }
-
-        // check 2: does moveRight do anything?
-        let gridCopy = [...gameBoard.grid]
-
-        for (let i = 0; i < gridCopy.length; i++) {
-            gridCopy[i] = gameBoard.moveRight(gridCopy[i])
-        }
-
-        if (!equateNestedLists(gridCopy, gameBoard.grid)) {
-            return
-        }
-
-
-        // check 3: does moveLeft do anything?
-        gridCopy = [...gameBoard.grid]
-
-        for (let i = 0; i < gridCopy.length; i++) {
-            gridCopy[i] = gameBoard.moveLeft(gridCopy[i])
-        }
-
-        if (!equateNestedLists(gridCopy, gameBoard.grid)) {
-            return
-        }
-
-
-        // check 4: does moveUp do anything?
-        let updatedGrid = gameBoard.moveAllUp()
-
-        if (!equateNestedLists(gameBoard.grid, updatedGrid)) {
-            return
-        }
-
-
-        // check 5: does moveDown do anything?
-        updatedGrid = gameBoard.moveAllDown()
-
-        if (!equateNestedLists(gameBoard.grid, updatedGrid)) {
-            return
-        }
-
-
-        // if all the checks pass, then the user loses!
-        print("game over! (make sure to analyze)")
-        gameBoard.gameFinished = true
+        userWonOrLost()
     }
 }
 
@@ -638,4 +567,73 @@ function moveAllDown() {
     }
 
     return gridToBeUpdated
+}
+
+
+// has the user won or lost?
+function userWonOrLost()  {
+    // has the user won?
+    for (let row of gameBoard.grid) {
+        for (let square of row) {
+            if (square === WINNING_VALUE) {
+                noLoop()
+                console.log("You won!")
+                gameFinished = true
+            }
+        }
+    }
+
+    // the beginning of checks for if the user has lost
+    // check 1: are all cells filled?
+    for (let row of gameBoard.grid) {
+        for (let cell of row) {
+            if (cell === 0) {
+                return
+            }
+        }
+    }
+
+    // check 2: does moveRight do anything?
+    let gridCopy = [...gameBoard.grid]
+
+    for (let i = 0; i < gridCopy.length; i++) {
+        gridCopy[i] = gameBoard.moveRight(gridCopy[i])
+    }
+
+    if (!equateNestedLists(gridCopy, gameBoard.grid)) {
+        return
+    }
+
+
+    // check 3: does moveLeft do anything?
+    gridCopy = [...gameBoard.grid]
+
+    for (let i = 0; i < gridCopy.length; i++) {
+        gridCopy[i] = gameBoard.moveLeft(gridCopy[i])
+    }
+
+    if (!equateNestedLists(gridCopy, gameBoard.grid)) {
+        return
+    }
+
+
+    // check 4: does moveUp do anything?
+    let updatedGrid = gameBoard.moveAllUp()
+
+    if (!equateNestedLists(gameBoard.grid, updatedGrid)) {
+        return
+    }
+
+
+    // check 5: does moveDown do anything?
+    updatedGrid = gameBoard.moveAllDown()
+
+    if (!equateNestedLists(gameBoard.grid, updatedGrid)) {
+        return
+    }
+
+
+    // if all the checks pass, then the user loses!
+    print("game over! (make sure to analyze)")
+    gameBoard.gameFinished = true
 }
