@@ -117,20 +117,24 @@ class GameBoard {
     }
 
 
+    // moves all digits in a 2048 row to the right, accounting for combinations
     moveDown(input2048Grid, columnToMoveIndex) {
+        // copy the grid
         let grid = [...input2048Grid]
 
+        // get a column from the grid and shift all of its digits down
         let column = this.getColumn2DGrid(grid, columnToMoveIndex)
         return this.moveRight([...column])
     }
 
-
+    // returns a column in a 2D 2048 grid
     getColumn2DGrid(input2048Grid, inputColumnIndex) {
         let grid = [...input2048Grid]
 
         // a column created by this function
         let outputColumn = []
 
+        // initializes the column with the values in the grid
         for (let row of grid) {
             outputColumn.push(row[inputColumnIndex])
         }
@@ -139,14 +143,17 @@ class GameBoard {
     }
 
 
+    // moves all digits in a 2048 row to the left, accounting for combinations
     moveUp(input2048Grid, columnToMoveIndex) {
+        // copy the grid
         let grid = [...input2048Grid]
 
+        // get a column and shift all of its digits up
         let column = getColumn2DGrid(grid, columnToMoveIndex)
         return this.moveLeft([...column])
     }
 
-
+    // moves all columns up
     moveAllUp() {
         let gridToBeUpdated = [
             [0,0,0,0],
@@ -155,6 +162,7 @@ class GameBoard {
             [0,0,0,0]
         ]
 
+        // for every row, move all the columns up, then update the copied grid
         for (let i = 0; i < this.grid.length; i++) {
             let column = this.moveUp(this.grid, i)
             // update all columns
@@ -167,6 +175,7 @@ class GameBoard {
     }
 
 
+    // moves all columns down
     moveAllDown() {
         let gridToBeUpdated = [
             [0,0,0,0],
@@ -175,6 +184,7 @@ class GameBoard {
             [0,0,0,0]
         ]
 
+        // for every row, move all the columns down, then update the copied grid
         for (let i = 0; i < this.grid.length; i++) {
             let column = this.moveDown(this.grid, i)
             // update all columns
@@ -236,7 +246,7 @@ class GameBoard {
     // display a 2D grid of numbers in rows and columns. Later, I'll also
     // give them backgrounds. The GameBoard itself is not displayed; rather,
     // the numbers inside are the ones being displayed. When I convert to
-    // using Number classes later, them I can use the GameBoard's show()
+    // using Number classes later, then I can use the GameBoard's show()
     // function to show all the Numbers instead.
     show() {
         // the width and height of each cell.
