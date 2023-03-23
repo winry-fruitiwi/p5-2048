@@ -44,11 +44,8 @@ class GameBoard {
     }
 
 
-    // copy over most code for back-end functions here, just make sure that
-    // they use this.grid and copy it correctly, then re-initialize it.
-    // keyPressed must be revised to use this.grid.
-
-
+    // takes in a row of digits and moves them all to the right without
+    // combining them at all
     slide(input2048Row) {
         // the output
         let shifted2048Row = [0, 0, 0, 0]
@@ -73,7 +70,8 @@ class GameBoard {
         return shifted2048Row
     }
 
-
+    // takes in a row of digits and combines all digits horizontally
+    // adjacent to another digit of the same value
     combineAdjacent(input2048Row) {
         // the output, using a trick that almost runs copy() on input2048 row
         let output2048Row = [...input2048Row]
@@ -91,19 +89,25 @@ class GameBoard {
         return output2048Row
     }
 
-
+    // moves all digits in a 2048 row to the right, accounting for combinations
     moveRight(input2048Row) {
+        // the output
         let copied2048Row = [...input2048Row]
-        let slid2048Row = slide(copied2048Row)
 
+        // slide and combine the two rows
+        let slid2048Row = slide(copied2048Row)
         let combined2048Row = this.combineAdjacent(slid2048Row)
 
         return this.slide(combined2048Row)
     }
 
-
+    // moves all digits in a 2048 row to the left, accounting for combinations
     moveLeft(input2048Row) {
+        // the output
         let copied2048Row = [...input2048Row]
+
+        // slide and combine the two rows, but they have to be reversed
+        // because I'm moving in the opposite direction
         copied2048Row.reverse()
 
         let output2048Row = this.moveRight(copied2048Row)
