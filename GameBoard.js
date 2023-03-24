@@ -197,12 +197,16 @@ class GameBoard {
     }
 
 
+    // prints the grid out in the console. for back-end testing only.
     printGrid() {
+        // copy the grid and then clear the console
         let gridToBePrinted = [...this.grid]
         console.clear()
 
+        // initialize a string for the printed grid
         let printedGridString = ""
 
+        // stringify each row of the grid and then print it
         for (let row of gridToBePrinted) {
             printedGridString += JSON.stringify(row) + "\n"
         }
@@ -210,17 +214,22 @@ class GameBoard {
         console.log(printedGridString)
     }
 
-
+    // spawn a random number
     spawnRandomNumber() {
+        // randomize the spawning of the row or column
         let randomRowIndex = int(random(this.grid.length))
         let randomColumnIndex = int(random(this.grid.length))
 
         // a limit on the number of times to reroll the random indices
         let numTimesToCheck = 100
 
+        // if needed, reroll the random indices up to numTimesToCheck in
+        // order to find a good spot for the new number
         let numTimesCurrentlyChecked = 0
         while (this.grid[randomRowIndex][randomColumnIndex] !== 0 &&
         numTimesToCheck > numTimesCurrentlyChecked) {
+            // reroll the indices if not found.
+            // TODO report any instances of numbers not spawning!
             randomRowIndex = int(random(this.grid.length))
             randomColumnIndex = int(random(this.grid.length))
 
@@ -231,6 +240,7 @@ class GameBoard {
             }
         }
 
+        // you can spawn either a random two or four, but you rarely get a four
         let randomTwoOrFour
 
         if (random() > 0.8) {
@@ -239,6 +249,7 @@ class GameBoard {
             randomTwoOrFour = 2
         }
 
+        // input the random number into the random row index
         this.grid[randomRowIndex][randomColumnIndex] = randomTwoOrFour
     }
 
