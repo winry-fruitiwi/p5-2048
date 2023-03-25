@@ -273,6 +273,7 @@ class GameBoard {
         // centers the grid in the canvas
         translate(width/2 - w * 2, height/2 - h * 2)
 
+        // create the background for the grid
         noStroke()
         fill(31, 12, 80)
         rect(0, 0, this.width, this.height)
@@ -282,6 +283,7 @@ class GameBoard {
         strokeWeight(10)
         // strokeCap(SQUARE)
 
+        // add the lines of the grid
         for (let i = 0; i <= this.grid.length; i++) {
             line(i*w, 0, i*w, this.height)
         }
@@ -290,11 +292,14 @@ class GameBoard {
             line(0, i*h, this.width, i*h)
         }
 
+        // for every number in the grid:
         for (let i = 0; i <= this.grid.length; i++) {
             for (let j = 0; j <= this.grid.length; j++) {
                 stroke(28, 13, 46)
                 strokeWeight(1)
 
+                // depending on the length of the current number in the
+                // grid, change the font size for the display
                 if (i < this.grid.length &&
                     j < this.grid.length &&
                     this.grid[i][j] !== 0) {
@@ -320,6 +325,8 @@ class GameBoard {
                             textFont(font, 15)
                             break;
                     }
+
+                    // display the number with the current font size
                     text(this.grid[i][j], j*w+w/2, i*h+h/2 + textAscent()/2)
                     textFont(font, 24)
                 }
