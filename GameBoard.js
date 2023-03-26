@@ -295,7 +295,19 @@ class GameBoard {
         // for every number in the grid:
         for (let i = 0; i <= this.grid.length; i++) {
             for (let j = 0; j <= this.grid.length; j++) {
+                // if the current number is greater than 0:
+                if (i < this.grid.length &&
+                    j < this.grid.length &&
+                    this.grid[i][j] !== 0) {
+                    rectMode(CENTER)
+                    // add a white rectangle behind every number displayed
+                    stroke(0, 0, 100)
+                    fill(0, 0, 100)
+                    rect(j*w+w/2, i*h+h/2, w, h)
+                }
+
                 stroke(28, 13, 46)
+                fill(28, 13, 46)
                 strokeWeight(1)
 
                 // depending on the length of the current number in the
