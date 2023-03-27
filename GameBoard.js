@@ -301,9 +301,16 @@ class GameBoard {
                     this.grid[i][j] !== 0) {
                     rectMode(CENTER)
                     // add a white rectangle behind every number displayed
-                    stroke(0, 0, 100)
+                    noStroke()
                     fill(0, 0, 100)
-                    rect(j*w+w/2, i*h+h/2, w, h)
+
+                    // a constant that determines the margin between each
+                    // square.
+                    const squareMargin = 5
+                    // determines the roundness of the square's edges.
+                    const rounding = 3
+
+                    rect(j*w+w/2, i*h+h/2, w-squareMargin, h-squareMargin, rounding)
                 }
 
                 stroke(28, 13, 46)
