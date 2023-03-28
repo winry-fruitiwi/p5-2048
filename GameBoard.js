@@ -292,6 +292,22 @@ class GameBoard {
             line(0, i*h, this.width, i*h)
         }
 
+        // a list of background colors for each number
+        let numberBackgroundColors = {
+            2: color(30, 8, 93),
+            4: color(38, 15, 92),
+            8: color(27, 50, 94),
+            16: color(20, 50, 96),
+            32: color(11, 61, 96),
+            64: color(11, 76, 96),
+            128: color(45, 51, 92),
+            256: color(45, 58, 92),
+            512: color(45, 66, 92),
+            1024: color(46, 73, 92),
+            2048: color(46, 80, 92),
+            4096: color(48, 16, 23)
+        }
+
         // for every number in the grid:
         for (let i = 0; i <= this.grid.length; i++) {
             for (let j = 0; j <= this.grid.length; j++) {
@@ -306,7 +322,7 @@ class GameBoard {
 
                     // a constant that determines the margin between each
                     // square.
-                    const squareMargin = 5
+                    const squareMargin = 7
                     // determines the roundness of the square's edges.
                     const rounding = 3
 
