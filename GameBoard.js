@@ -22,8 +22,8 @@ class GameBoard {
         this.gameFinished = false
 
         // the board's dimensions on the canvas
-        this.width = 250
-        this.height = 250
+        this.width = 500
+        this.height = 500
     }
 
 
@@ -32,10 +32,10 @@ class GameBoard {
     initializeGrid() {
         // create an empty grid
         this.grid = [
-            [0,0,0,0],
-            [0,0,0,0],
-            [0,0,0,0],
-            [0,0,0,0]
+            [2,4,8,16],
+            [32,64,128,256],
+            [512,1024,2048,4096],
+            [8192,16384,0,0]
         ]
 
         // spawn two random numbers inside the grid to construct a 2048 grid
@@ -280,7 +280,7 @@ class GameBoard {
         fill(28, 13, 46)
 
         stroke(28, 14, 73)
-        strokeWeight(10)
+        strokeWeight(20)
         // strokeCap(SQUARE)
 
         // add the lines of the grid
@@ -305,7 +305,7 @@ class GameBoard {
             512: color(45, 66, 92),
             1024: color(46, 73, 92),
             2048: color(46, 80, 92),
-            4096: color(48, 16, 23)
+            4096: color(48, 16, 23) // remove this soon
         }
 
         // for every number in the grid:
@@ -316,22 +316,38 @@ class GameBoard {
                     j < this.grid.length &&
                     this.grid[i][j] !== 0) {
                     rectMode(CENTER)
-                    // add a white rectangle behind every number displayed
+                    // add a colored rectangle behind every number
+                    // displayed. Its color is determined by the number. If
+                    // it's greater than 2048, then it should have a
+                    // blackish color. Otherwise, it should be in the
+                    // dictionary of numbers.
+                    if (this.grid[i][j] > 2048) {
+                        fill(48, 16, 23)
+                    } else {
+                        fill(numberBackgroundColors[this.grid[i][j]])
+                    }
+
                     noStroke()
-                    fill(0, 0, 100)
 
                     // a constant that determines the margin between each
                     // square.
-                    const squareMargin = 7
+                    const squareMargin = 14
                     // determines the roundness of the square's edges.
                     const rounding = 3
 
                     rect(j*w+w/2, i*h+h/2, w-squareMargin, h-squareMargin, rounding)
-                }
 
-                stroke(28, 13, 46)
-                fill(28, 13, 46)
-                strokeWeight(1)
+                    stroke(28, 13, 46)
+                    fill(28, 13, 46)
+                    strokeWeight(1)
+
+                    // if the grid number is greater than 4, then the fill
+                    // and stroke should be set to white.
+                    if (this.grid[i][j] > 4) {
+                        fill(34, 2, 97)
+                        stroke(34, 2, 97)
+                    }
+                }
 
                 // depending on the length of the current number in the
                 // grid, change the font size for the display
@@ -342,22 +358,24 @@ class GameBoard {
                     textStyle(BOLD)
                     switch (str(this.grid[i][j]).length) {
                         case 1:
-                            textFont(font, 24)
+                            strokeWeight(2)
+                            textFont(font, 48)
                             break;
                         case 2:
-                            textFont(font, 20)
+                            strokeWeight(2)
+                            textFont(font, 40)
                             break;
                         case 3:
-                            strokeWeight(1)
-                            textFont(font, 18)
+                            strokeWeight(2)
+                            textFont(font, 36)
                             break;
                         case 4:
-                            strokeWeight(0.5)
-                            textFont(font, 16)
+                            strokeWeight(1)
+                            textFont(font, 32)
                             break;
                         case 5:
-                            strokeWeight(0.5)
-                            textFont(font, 15)
+                            strokeWeight(1)
+                            textFont(font, 30)
                             break;
                     }
 

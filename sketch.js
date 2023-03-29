@@ -36,7 +36,7 @@ function preload() {
 }
 
 function setup() {
-    let cnv = createCanvas(500, 500)
+    let cnv = createCanvas(520, 520)
     cnv.parent('#canvas')
     colorMode(HSB, 360, 100, 100, 100)
     textFont(font, 34)
@@ -329,7 +329,7 @@ function printGrid() {
 /** 🧹 shows debugging info using text() 🧹 */
 class CanvasDebugCorner {
     constructor(lines) {
-        this.visible = true
+        this.visible = false
         this.size = lines
         this.debugMsgList = [] /* initialize all elements to empty string */
         for (let i in lines)
@@ -343,6 +343,7 @@ class CanvasDebugCorner {
     }
 
     showBottom() {
+        rectMode(CORNERS)
         if (this.visible) {
             textFont(fixedWidthFont, 14)
 
