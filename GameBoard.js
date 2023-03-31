@@ -264,7 +264,11 @@ class GameBoard {
         let w = this.width/4
         let h = this.height/4
 
+        // the width of each line of the grid.x
+        let gridLineWidth = 20
+
         textAlign(CENTER)
+        rectMode(CORNER)
 
         // assuming that the length of both rows and columns of the 2048
         // grid is 4!
@@ -280,7 +284,7 @@ class GameBoard {
         fill(28, 13, 46)
 
         stroke(28, 14, 73)
-        strokeWeight(20)
+        strokeWeight(gridLineWidth)
         // strokeCap(SQUARE)
 
         // add the lines of the grid
