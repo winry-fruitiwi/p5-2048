@@ -309,7 +309,6 @@ class GameBoard {
             512: color(45, 66, 92),
             1024: color(46, 73, 92),
             2048: color(46, 80, 92),
-            4096: color(48, 16, 23) // remove this soon
         }
 
         // for every number in the grid:
