@@ -1,9 +1,13 @@
 // a number class representing a number with a value that can move
 class Number {
-    constructor(value, pos) {
+    constructor(value, pos, w, h) {
         this.value = value
         this.pos = pos
         this.ifJustCreated = true // needs to be constantly updated every move
+
+        // the fields that control the width and height of this Number
+        this.w = w
+        this.h = h
     }
 
     // sometimes you need to set the position of the number outside the
@@ -48,6 +52,7 @@ class Number {
         // if the number's value is below 4096, set the background color to
         // the color corresponding to the number. otherwise, set it to
         // color(48, 16, 23), the default color for numbers above 4096.
+        noStroke()
         if (this.value < 4096) {
             fill(numberBackgroundColors[this.value])
         } else {
@@ -55,12 +60,51 @@ class Number {
         }
 
         // translate to the position of the number, centered in the middle
-        // of the number cell. (push)
+        // of the number cell.
+        push()
+        translate(this.pos.x, this.pos.y)
 
         // draw a rounded rectangle with no stroke and the current fill
+        // centered in the middle
+        rectMode(CENTER)
+        rect(0, 0, this.w, this.h)
 
         // if the number's value is below 8, the background isn't dark
         // enough for the number to be legible when white, so instead make
-        // it mostly black. Otherwise, make it mostly white. (pop)
+        // it mostly black. Otherwise, make it mostly white.
+        if (this.value > 4) {
+            fill(34, 2, 97)
+            stroke(34, 2, 97)
+        }
+
+        // depending on the number's length, change its font size so that it
+        // fits in the cell. A 16384 will not fit in a cell with a 2's font
+        // size, most likely!
+        switch (str(this.value)) {
+            case 1:
+                strokeWeight(2)
+                textFont(font, 48)
+                break;
+            case 2:
+                strokeWeight(2)
+                textFont(font, 40)
+                break;
+            case 3:
+                strokeWeight(2)
+                textFont(font, 36)
+                break;
+            case 4:
+                strokeWeight(1)
+                textFont(font, 32)
+                break;
+            case 5:
+                strokeWeight(1)
+                textFont(font, 30)
+                break;
+        }
+
+        text(str(this.value), 0, 0)
+
+        pop()
     }
 }
