@@ -1,5 +1,5 @@
 // a number class representing a number with a value that can move
-class Number {
+class GridNum {
     constructor(value, pos, w, h) {
         this.value = value
         this.pos = pos
@@ -77,10 +77,15 @@ class Number {
             stroke(34, 2, 97)
         }
 
+        else {
+            stroke(28, 13, 46)
+            fill(28, 13, 46)
+        }
+
         // depending on the number's length, change its font size so that it
         // fits in the cell. A 16384 will not fit in a cell with a 2's font
         // size, most likely!
-        switch (str(this.value)) {
+        switch (str(this.value).length) {
             case 1:
                 strokeWeight(2)
                 textFont(font, 48)
@@ -103,7 +108,8 @@ class Number {
                 break;
         }
 
-        text(str(this.value), 0, 0)
+        textAlign(CENTER)
+        text(str(this.value), 0, textAscent()/2)
 
         pop()
     }
