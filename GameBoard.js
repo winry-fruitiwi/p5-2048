@@ -12,6 +12,10 @@ class GameBoard {
         this.width = 500
         this.height = 500
 
+        // the board's cell width and cell height. the -20 at the end is a
+        // random constant for the padding of the element
+        this.cellWidth = this.width/4 - 20
+        this.cellHeight = this.height/4 - 20
 
         // before anything else, initialize the 4x4 grid. If in
         // 2048ForDummies mode in the future, make a 6x6 grid instead.
@@ -51,10 +55,9 @@ class GameBoard {
         for (let i = input2048Row.length - 1; i >= 0; i--) {
             let potentialGridNum = input2048Row[i]
 
-            // when we encounter a nonzero number, for now we will shift it to
-            // the end and not account for other blocks
+            // when we encounter a nonzero number, shift it to the end
             if (potentialGridNum !== 0) {
-                shifted2048Row[nextNumberPos] = potentialGridNum.value
+                shifted2048Row[nextNumberPos] = potentialGridNum
                 nextNumberPos--
             }
         }
@@ -72,9 +75,13 @@ class GameBoard {
         // is equivalent to Python's list[-2]. Check i + 1 and i. If they are
         // the same value, i+1's value is duplicated, and i's value becomes 0
         for (let i = output2048Row.length - 2; i >= 0; i--) {
-            if (output2048Row[i] === output2048Row[i + 1]) {
-                output2048Row[i+1] *= 2
-                output2048Row[i] = 0
+            print("output: " + output2048Row[i+1])
+            if (output2048Row[i].value !== 0 && output2048Row[i + 1].value !== 0) {
+                if (output2048Row[i].value === output2048Row[i + 1].value) {
+                    output2048Row[i+1].setValue(output2048Row[i+1].value * 2)
+                    output2048Row[i+1].ifJustCreated = true
+                    output2048Row[i].setValue(0)
+                }
             }
         }
 
@@ -89,8 +96,9 @@ class GameBoard {
         // slide and combine the two rows
         let slid2048Row = slide(copied2048Row)
         let combined2048Row = this.combineAdjacent(slid2048Row)
+        let new2048Row = this.slide(combined2048Row)
 
-        return this.slide(combined2048Row)
+        return new2048Row
     }
 
     // moves all digits in a 2048 row to the left, accounting for combinations
@@ -240,19 +248,16 @@ class GameBoard {
             randomTwoOrFour = 2
         }
 
-        console.log(this.width)
-        console.log(this.height)
-
         // create a grid number with its random properties
         // input the random number into the random row index
         this.grid[randomRowIndex][randomColumnIndex] = new GridNum(
             randomTwoOrFour,
             new p5.Vector(
-                randomRowIndex * this.width / 4,
-                randomColumnIndex * this.height / 4
+                randomColumnIndex * this.width / 4 + this.width/8,
+                randomRowIndex * this.height / 4 + this.height/8
             ),
-            this.width / 4,
-            this.height / 4
+            this.cellWidth,
+            this.cellHeight
         )
     }
 
@@ -317,77 +322,12 @@ class GameBoard {
         // for every number in the grid:
         for (let i = 0; i <= this.grid.length; i++) {
             for (let j = 0; j <= this.grid.length; j++) {
-                // if the current number is greater than 0:
+                // if the current number is a GridNum:
                 if (i < this.grid.length &&
                     j < this.grid.length &&
                     this.grid[i][j] !== 0) {
-                    rectMode(CENTER)
-                    // add a colored rectangle behind every number
-                    // displayed. Its color is determined by the number. If
-                    // it's greater than 2048, then it should have a
-                    // blackish color. Otherwise, it should be in the
-                    // dictionary of numbers.
-                    if (this.grid[i][j] > 2048) {
-                        fill(48, 16, 23)
-                    } else {
-                        fill(numberBackgroundColors[this.grid[i][j]])
-                    }
-
-                    noStroke()
-
-                    // a constant that determines the margin between each
-                    // square.
-                    const squareMargin = 14
-                    // determines the roundness of the square's edges.
-                    const rounding = 3
-
-                    rect(j*w+w/2, i*h+h/2, w-squareMargin, h-squareMargin, rounding)
-
-                    stroke(28, 13, 46)
-                    fill(28, 13, 46)
-                    strokeWeight(1)
-
-                    // if the grid number is greater than 4, then the fill
-                    // and stroke should be set to white.
-                    if (this.grid[i][j] > 4) {
-                        fill(34, 2, 97)
-                        stroke(34, 2, 97)
-                    }
-                }
-
-                // depending on the length of the current number in the
-                // grid, change the font size for the display
-                if (i < this.grid.length &&
-                    j < this.grid.length &&
-                    this.grid[i][j] !== 0) {
-                    // noStroke()
-                    textStyle(BOLD)
-                    switch (str(this.grid[i][j]).length) {
-                        case 1:
-                            strokeWeight(2)
-                            textFont(font, 48)
-                            break;
-                        case 2:
-                            strokeWeight(2)
-                            textFont(font, 40)
-                            break;
-                        case 3:
-                            strokeWeight(2)
-                            textFont(font, 36)
-                            break;
-                        case 4:
-                            strokeWeight(1)
-                            textFont(font, 32)
-                            break;
-                        case 5:
-                            strokeWeight(1)
-                            textFont(font, 30)
-                            break;
-                    }
-
-                    // display the number with the current font size
-                    text(this.grid[i][j], j*w+w/2, i*h+h/2 + textAscent()/2)
-                    textFont(font, 24)
+                    // show the number
+                    this.grid[i][j].show()
                 }
             }
         }

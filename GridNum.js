@@ -18,6 +18,11 @@ class GridNum {
         this.ifJustCreated = false
     }
 
+    // set the value of the GridNum when it was just combined
+    setValue(value) {
+        this.value = value
+    }
+
     // arrives at an end position. this is to be done later after reviewing
     // another project.
     arrive(endPos) {
