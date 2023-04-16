@@ -65,9 +65,12 @@ class GridNum {
         translate(this.pos.x, this.pos.y)
 
         // draw a rounded rectangle with no stroke and the current fill
-        // centered in the middle
+        // centered in the middle. rounding determines the radius of the
+        // rounding at the corners of the rectangle.
+        let rounding = 4
+
         rectMode(CENTER)
-        rect(0, 0, this.w, this.h)
+        rect(0, 0, this.w, this.h, rounding)
 
         // if the number's value is below 8, the background isn't dark
         // enough for the number to be legible when white, so instead make

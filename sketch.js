@@ -28,7 +28,7 @@ const WINNING_VALUE = 2048
 // the GameBoard that represents this game!
 let gameBoard
 
-// a test instance of a Number class that regenerates itself every 100
+// a test instance of a Number class that regenerates itself every couple of
 // frames. Note: this is not the primitive Int class, but the Number class I
 // implemented myself.
 let testNum
@@ -75,7 +75,16 @@ function draw() {
     if (frameCount > 3000)
         noLoop()
 
-    // gameBoard.show()
+    // if (frameCount % 50 === 0) {
+    //     let widthAndHeight = 125
+    //
+    //     testNum = new GridNum(random([2, 4, 8, 16, 32]),
+    //         new p5.Vector(random(100, width-100), random(100, height-100)),
+    //         widthAndHeight, widthAndHeight
+    //     )
+    // }
+
+    gameBoard.show()
 
     /* debugCorner needs to be last so its z-index is highest */
     debugCorner.setText(`frameCount: ${frameCount}`, 2)
@@ -84,7 +93,7 @@ function draw() {
 
     textFont(font, 24)
 
-    testNum.show()
+    // testNum.show()
 }
 
 

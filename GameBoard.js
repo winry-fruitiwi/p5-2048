@@ -8,22 +8,14 @@ class GameBoard {
     // variables: grid (2D array), gameWon (bool), gameLost (bool),
     // gameFinished (bool)
     constructor() {
-        // before anything else, initialize the 4x4 grid. If in
-        // 2048ForDummies mode in the future, make a 6x6 grid instead.
-        this.initializeGrid()
-
-        // these three booleans determine if a game has been won or lost,
-        // and if one of them are true then the game has been finished.
-        // However, 2048 can continue if the user wants to when they win, so
-        // it's not necessarily true that gameFinished is true when gameWon
-        // is true.
-        this.gameWon = false
-        this.gameLost = false
-        this.gameFinished = false
-
         // the board's dimensions on the canvas
         this.width = 500
         this.height = 500
+
+
+        // before anything else, initialize the 4x4 grid. If in
+        // 2048ForDummies mode in the future, make a 6x6 grid instead.
+        this.initializeGrid()
     }
 
 
@@ -32,10 +24,10 @@ class GameBoard {
     initializeGrid() {
         // create an empty grid
         this.grid = [
-            [2,4,8,16],
-            [32,64,128,256],
-            [512,1024,2048,4096],
-            [8192,16384,0,0]
+            [0,0,0,0],
+            [0,0,0,0],
+            [0,0,0,0],
+            [0,0,0,0]
         ]
 
         // spawn two random numbers inside the grid to construct a 2048 grid
@@ -57,12 +49,12 @@ class GameBoard {
 
         // iterate through numbers in input
         for (let i = input2048Row.length - 1; i >= 0; i--) {
-            let number = input2048Row[i]
+            let potentialGridNum = input2048Row[i]
 
             // when we encounter a nonzero number, for now we will shift it to
             // the end and not account for other blocks
-            if (number > 0) {
-                shifted2048Row[nextNumberPos] = number
+            if (potentialGridNum !== 0) {
+                shifted2048Row[nextNumberPos] = potentialGridNum.value
                 nextNumberPos--
             }
         }
@@ -115,7 +107,6 @@ class GameBoard {
         output2048Row.reverse()
         return output2048Row
     }
-
 
     // moves all digits in a 2048 row to the right, accounting for combinations
     moveDown(input2048Grid, columnToMoveIndex) {
@@ -201,7 +192,7 @@ class GameBoard {
     printGrid() {
         // copy the grid and then clear the console
         let gridToBePrinted = [...this.grid]
-        console.clear()
+        // console.clear()
 
         // initialize a string for the printed grid
         let printedGridString = ""
@@ -249,8 +240,20 @@ class GameBoard {
             randomTwoOrFour = 2
         }
 
+        console.log(this.width)
+        console.log(this.height)
+
+        // create a grid number with its random properties
         // input the random number into the random row index
-        this.grid[randomRowIndex][randomColumnIndex] = randomTwoOrFour
+        this.grid[randomRowIndex][randomColumnIndex] = new GridNum(
+            randomTwoOrFour,
+            new p5.Vector(
+                randomRowIndex * this.width / 4,
+                randomColumnIndex * this.height / 4
+            ),
+            this.width / 4,
+            this.height / 4
+        )
     }
 
 
