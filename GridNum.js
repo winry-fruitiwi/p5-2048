@@ -13,8 +13,9 @@ class GridNum {
     // sometimes you need to set the position of the number outside the
     // method. if this is the case, then the number was moved, and we have
     // to make ifJustCreated false
-    setPos(pos) {
-        this.pos = pos
+    setPos(posx, posy) {
+        this.pos.x = posx
+        this.pos.y = posy
         this.ifJustCreated = false
     }
 

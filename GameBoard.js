@@ -40,6 +40,28 @@ class GameBoard {
     }
 
 
+    setNumPos() {
+        // for every number in the 2048 grid, check if it's a number
+        for (let i = 0; i < this.grid.length; i++) {
+            let row = this.grid[i]
+
+            for (let j = 0; j < row.length; j++) {
+                let num = this.grid[i][j]
+
+                if (num !== 0) {
+                    // if it is a GridNum, set its position based on the index,
+                    // like in spawnRandomNumber
+                    print("number detected!")
+                    num.setPos(
+                        j * this.width / 4 + this.width / 8,
+                        i * this.height / 4 + this.height / 8
+                    )
+                }
+            }
+        }
+    }
+
+
     // takes in a row of digits and moves them all to the right without
     // combining them at all
     slide(input2048Row) {
@@ -75,12 +97,11 @@ class GameBoard {
         // is equivalent to Python's list[-2]. Check i + 1 and i. If they are
         // the same value, i+1's value is duplicated, and i's value becomes 0
         for (let i = output2048Row.length - 2; i >= 0; i--) {
-            print("output: " + output2048Row[i+1])
-            if (output2048Row[i].value !== 0 && output2048Row[i + 1].value !== 0) {
-                if (output2048Row[i].value === output2048Row[i + 1].value) {
+            if (output2048Row[i] !== 0 && output2048Row[i+1] !== 0) {
+                if (output2048Row[i].value === output2048Row[i+1].value) {
                     output2048Row[i+1].setValue(output2048Row[i+1].value * 2)
                     output2048Row[i+1].ifJustCreated = true
-                    output2048Row[i].setValue(0)
+                    output2048Row[i] = 0
                 }
             }
         }
@@ -96,9 +117,7 @@ class GameBoard {
         // slide and combine the two rows
         let slid2048Row = slide(copied2048Row)
         let combined2048Row = this.combineAdjacent(slid2048Row)
-        let new2048Row = this.slide(combined2048Row)
-
-        return new2048Row
+        return this.slide(combined2048Row)
     }
 
     // moves all digits in a 2048 row to the left, accounting for combinations

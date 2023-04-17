@@ -277,7 +277,7 @@ function keyPressed() {
             let previousGrid = [...gameBoard.grid]
 
             for (let i = 0; i < gameBoard.grid.length; i++) {
-                gameBoard.grid[i] = moveLeft(gameBoard.grid[i])
+                gameBoard.grid[i] = gameBoard.moveLeft(gameBoard.grid[i])
             }
 
             if (equateNestedLists(gameBoard.grid, previousGrid)) {
@@ -292,7 +292,7 @@ function keyPressed() {
             let previousGrid = [...gameBoard.grid]
 
             for (let i = 0; i < gameBoard.grid.length; i++) {
-                gameBoard.grid[i] = moveRight(gameBoard.grid[i])
+                gameBoard.grid[i] = gameBoard.moveRight(gameBoard.grid[i])
             }
 
             if (equateNestedLists(gameBoard.grid, previousGrid)) {
@@ -331,6 +331,8 @@ function keyPressed() {
 
         userWonOrLost()
     }
+
+    gameBoard.setNumPos()
 }
 
 
