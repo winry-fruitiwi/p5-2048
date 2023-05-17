@@ -33,6 +33,9 @@ let gameBoard
 // implemented myself.
 let testNum
 
+// a drawing context for adding a blurred shadow
+let dc
+
 
 function preload() {
     font = loadFont('data/consola.ttf')
@@ -55,6 +58,8 @@ function setup() {
 
     gameBoard = new GameBoard()
     gameBoard.printGrid()
+
+    dc = drawingContext
 
     gameBoard.show()
 
@@ -662,4 +667,20 @@ function userWonOrLost()  {
     // if all the checks pass, then the user loses!
     print("game over! (make sure to analyze)")
     gameBoard.gameFinished = true
+}
+
+
+function resetDcShadow() {
+    dc.shadowBlur = 0
+    dc.shadowOffsetY = 0
+    dc.shadowOffsetX = 0
+
+    console.log("the shadow is on")
+}
+
+function addDcShadow() {
+    dc.shadowBlur = 24
+    dc.shadowColor = color(46, 60, 100)
+
+    console.log("the shadow is off")
 }

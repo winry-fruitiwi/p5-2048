@@ -22,6 +22,7 @@ class GridNum {
     // set the value of the GridNum when it was just combined
     setValue(value) {
         this.value = value
+        this.ifJustCreated = true
     }
 
     // arrives at an end position. this is to be done later after reviewing
@@ -53,6 +54,10 @@ class GridNum {
             512: color(45, 66, 92),
             1024: color(46, 73, 92),
             2048: color(46, 80, 92),
+        }
+
+        if (this.value > 64) {
+            addDcShadow()
         }
 
         // if the number's value is below 4096, set the background color to
@@ -90,6 +95,8 @@ class GridNum {
             stroke(28, 13, 46)
             fill(28, 13, 46)
         }
+
+        resetDcShadow()
 
         // depending on the number's length, change its font size so that it
         // fits in the cell. A 16384 will not fit in a cell with a 2's font

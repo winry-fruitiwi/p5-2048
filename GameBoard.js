@@ -261,8 +261,8 @@ class GameBoard {
         // you can spawn either a random two or four, but you rarely get a four
         let randomTwoOrFour
 
-        if (random() > 0.8) {
-            randomTwoOrFour = 4
+        if (random() > 0.6) {
+            randomTwoOrFour = 128
         } else {
             randomTwoOrFour = 2
         }
@@ -287,6 +287,8 @@ class GameBoard {
     // using Number classes later, then I can use the GameBoard's show()
     // function to show all the Numbers instead.
     show() {
+        console.log("the grid has been displayed")
+        resetDcShadow()
         // the width and height of each cell.
         let w = this.width/4
         let h = this.height/4
@@ -348,6 +350,8 @@ class GameBoard {
                     // show the number
                     this.grid[i][j].show()
                 }
+
+                resetDcShadow()
             }
         }
         // pop()
