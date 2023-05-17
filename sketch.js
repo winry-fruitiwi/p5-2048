@@ -289,6 +289,8 @@ function keyPressed() {
                 return
             }
 
+            gameBoard.setNumPos()
+
             gameBoard.spawnRandomNumber()
             gameBoard.printGrid()
         }
@@ -304,6 +306,8 @@ function keyPressed() {
                 return
             }
 
+            gameBoard.setNumPos()
+
             gameBoard.spawnRandomNumber()
             gameBoard.printGrid()
         }
@@ -314,6 +318,8 @@ function keyPressed() {
             if (equateNestedLists(gameBoard.grid, gridToBeUpdated)) {
                 return
             }
+
+            gameBoard.setNumPos()
 
             gameBoard.grid = [...gridToBeUpdated]
 
@@ -328,6 +334,8 @@ function keyPressed() {
                 return
             }
 
+            gameBoard.setNumPos()
+
             gameBoard.grid = [...gridToBeUpdated]
 
             gameBoard.spawnRandomNumber()
@@ -336,8 +344,6 @@ function keyPressed() {
 
         userWonOrLost()
     }
-
-    gameBoard.setNumPos()
 }
 
 
@@ -674,13 +680,14 @@ function resetDcShadow() {
     dc.shadowBlur = 0
     dc.shadowOffsetY = 0
     dc.shadowOffsetX = 0
-
-    console.log("the shadow is on")
 }
 
 function addDcShadow() {
-    dc.shadowBlur = 24
-    dc.shadowColor = color(46, 60, 100)
+    dc.shadowBlur = 20
+    dc.shadowColor = color(46, 50, 100)
+}
 
-    console.log("the shadow is off")
+function addIntenseShadow() {
+    dc.shadowBlur = 44
+    dc.shadowColor = color(46, 85, 100)
 }

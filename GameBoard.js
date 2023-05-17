@@ -287,7 +287,6 @@ class GameBoard {
     // using Number classes later, then I can use the GameBoard's show()
     // function to show all the Numbers instead.
     show() {
-        console.log("the grid has been displayed")
         resetDcShadow()
         // the width and height of each cell.
         let w = this.width/4

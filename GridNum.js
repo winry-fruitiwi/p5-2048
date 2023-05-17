@@ -58,6 +58,10 @@ class GridNum {
 
         if (this.value > 64) {
             addDcShadow()
+
+            if (this.ifJustCreated) {
+                addIntenseShadow()
+            }
         }
 
         // if the number's value is below 4096, set the background color to
