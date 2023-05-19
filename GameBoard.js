@@ -261,8 +261,8 @@ class GameBoard {
         // you can spawn either a random two or four, but you rarely get a four
         let randomTwoOrFour
 
-        if (random() > 0.6) {
-            randomTwoOrFour = 128
+        if (random() > 0.8) {
+            randomTwoOrFour = 4
         } else {
             randomTwoOrFour = 2
         }
@@ -348,6 +348,8 @@ class GameBoard {
                     this.grid[i][j] !== 0) {
                     // show the number
                     this.grid[i][j].show()
+                    this.grid[i][j].arrive()
+                    this.grid[i][j].update()
                 }
 
                 resetDcShadow()

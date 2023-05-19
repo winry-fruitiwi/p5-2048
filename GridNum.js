@@ -8,14 +8,21 @@ class GridNum {
         // the fields that control the width and height of this Number
         this.w = w
         this.h = h
+
+        this.vel = new p5.Vector()
+        this.acc = new p5.Vector(0, 0)
+        this.target = new p5.Vector(pos.x, pos.y)
+        this.maxSpeed = 40
+        this.maxForce = 100
+        this.perceptionRadius = 20
     }
 
     // sometimes you need to set the position of the number outside the
     // method. if this is the case, then the number was moved, and we have
     // to make ifJustCreated false
     setPos(posx, posy) {
-        this.pos.x = posx
-        this.pos.y = posy
+        this.target.x = posx
+        this.target.y = posy
         this.ifJustCreated = false
     }
 
@@ -23,12 +30,6 @@ class GridNum {
     setValue(value) {
         this.value = value
         this.ifJustCreated = true
-    }
-
-    // arrives at an end position. this is to be done later after reviewing
-    // another project.
-    arrive(endPos) {
-
     }
 
     // represents the class as a number. same as __repr__ dunder method in
@@ -132,5 +133,40 @@ class GridNum {
         text(str(this.value), 0, textAscent()/2)
 
         pop()
+    }
+
+    update() {
+        this.vel.add(this.acc)
+        this.pos.add(this.vel)
+        this.acc.mult(0)
+    }
+
+    applyForce(force) {
+        // F = ma, but m = 1 so F = a
+        this.acc.add(force)
+    }
+
+    // When we seek, we overshoot a bit because when we're close
+    // we don't slow down enough. We fix this by slowing down
+    // when we're close enough to our target, which is called "arrival".
+    arrive() {
+        // The first step is finding a vector from us to the target.
+        let desired = new p5.Vector.sub(this.target, this.pos)
+        // we want to go as fast as possible!
+        let velocity = this.maxSpeed
+
+        if (desired.mag() < this.perceptionRadius) {
+            velocity = map(desired.mag(),
+                0, 50,
+                0, this.maxSpeed)
+        }
+
+        desired.setMag(velocity)
+        // steering force = desired velocity - current velocity
+        desired.sub(this.vel)
+        // We can't turn any faster than our maxForce instance field.
+        desired.limit(this.maxForce)
+        // Now we can return the fruit of our labour!
+        this.applyForce(desired)
     }
 }
