@@ -17,6 +17,9 @@ class GameBoard {
         this.cellWidth = this.width/4 - 20
         this.cellHeight = this.height/4 - 20
 
+        // the game's score
+        this.score = 0
+
         // before anything else, initialize the 4x4 grid. If in
         // 2048ForDummies mode in the future, make a 6x6 grid instead.
         this.initializeGrid()
@@ -102,9 +105,13 @@ class GameBoard {
                     output2048Row[i+1].setValue(output2048Row[i+1].value * 2)
                     output2048Row[i+1].ifJustCreated = true
                     output2048Row[i] = 0
+
+                    this.score += output2048Row[i+1].value
                 }
             }
         }
+
+        console.log("score: " + this.score)
 
         return output2048Row
     }

@@ -57,7 +57,6 @@ function setup() {
     debugCorner = new CanvasDebugCorner(5)
 
     gameBoard = new GameBoard()
-    gameBoard.printGrid()
 
     dc = drawingContext
 
@@ -292,8 +291,6 @@ function keyPressed() {
             gameBoard.spawnRandomNumber()
 
             gameBoard.setNumPos()
-
-            gameBoard.printGrid()
         }
 
         if (keyCode === RIGHT_ARROW || key === "d") {
@@ -310,8 +307,6 @@ function keyPressed() {
             gameBoard.spawnRandomNumber()
 
             gameBoard.setNumPos()
-
-            gameBoard.printGrid()
         }
 
         if (keyCode === DOWN_ARROW || key === "s") {
@@ -326,9 +321,7 @@ function keyPressed() {
             gameBoard.setNumPos()
 
 
-            gameBoard.spawnRandomNumber()
-            gameBoard.printGrid()
-        }
+            gameBoard.spawnRandomNumber()}
 
         if (keyCode === UP_ARROW || key === "w") {
             let gridToBeUpdated = gameBoard.moveAllUp()
@@ -342,9 +335,7 @@ function keyPressed() {
             gameBoard.setNumPos()
 
 
-            gameBoard.spawnRandomNumber()
-            gameBoard.printGrid()
-        }
+            gameBoard.spawnRandomNumber()}
 
         userWonOrLost()
     }
@@ -352,19 +343,6 @@ function keyPressed() {
 
 
 // prints the 2048 grid
-function printGrid() {
-    let gridToBePrinted = [...grid]
-    console.clear()
-
-    let printedGridString = ""
-
-    for (let row of gridToBePrinted) {
-        printedGridString += JSON.stringify(row) + "\n"
-    }
-
-    console.log(printedGridString)
-}
-
 
 /** 🧹 shows debugging info using text() 🧹 */
 class CanvasDebugCorner {
