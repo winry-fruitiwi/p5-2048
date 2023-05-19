@@ -2,7 +2,7 @@
 class GridNum {
     constructor(value, pos, w, h) {
         this.value = value
-        this.pos = pos
+        this.pos = new p5.Vector()
         this.ifJustCreated = true // needs to be constantly updated every move
 
         // the fields that control the width and height of this Number
@@ -167,6 +167,17 @@ class GridNum {
         // We can't turn any faster than our maxForce instance field.
         desired.limit(this.maxForce)
         // Now we can return the fruit of our labour!
-        this.applyForce(desired)
+        return desired
+    }
+
+    behaviors() {
+        // We want to seek our target
+        let seek = this.arrive(this.target)
+
+        // scaling area {
+        // }
+
+        // Now we apply the forces that were scaled in the scaling area.
+        this.applyForce(seek)
     }
 }

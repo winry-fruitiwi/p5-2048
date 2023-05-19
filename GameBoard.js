@@ -346,9 +346,9 @@ class GameBoard {
                 if (i < this.grid.length &&
                     j < this.grid.length &&
                     this.grid[i][j] !== 0) {
-                    // show the number
+                    // show the number and call any behaviors on it
                     this.grid[i][j].show()
-                    this.grid[i][j].arrive()
+                    this.grid[i][j].behaviors()
                     this.grid[i][j].update()
                 }
 

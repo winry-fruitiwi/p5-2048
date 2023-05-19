@@ -158,7 +158,7 @@ function equateLists(inputList1, inputList2) {
     }
 
     for (let i = 0; i < list1.length; i++) {
-        if (list1[i] !== list2[i]) {
+        if (list1[i].value !== list2[i].value) {
             return false
         }
     }
@@ -289,9 +289,10 @@ function keyPressed() {
                 return
             }
 
+            gameBoard.spawnRandomNumber()
+
             gameBoard.setNumPos()
 
-            gameBoard.spawnRandomNumber()
             gameBoard.printGrid()
         }
 
@@ -306,9 +307,10 @@ function keyPressed() {
                 return
             }
 
+            gameBoard.spawnRandomNumber()
+
             gameBoard.setNumPos()
 
-            gameBoard.spawnRandomNumber()
             gameBoard.printGrid()
         }
 
@@ -319,9 +321,10 @@ function keyPressed() {
                 return
             }
 
+            gameBoard.grid = [...gridToBeUpdated]
+
             gameBoard.setNumPos()
 
-            gameBoard.grid = [...gridToBeUpdated]
 
             gameBoard.spawnRandomNumber()
             gameBoard.printGrid()
@@ -334,9 +337,10 @@ function keyPressed() {
                 return
             }
 
+            gameBoard.grid = [...gridToBeUpdated]
+
             gameBoard.setNumPos()
 
-            gameBoard.grid = [...gridToBeUpdated]
 
             gameBoard.spawnRandomNumber()
             gameBoard.printGrid()
