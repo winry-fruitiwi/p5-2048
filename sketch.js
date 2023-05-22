@@ -276,6 +276,8 @@ function keyPressed() {
         debugCorner.visible = !debugCorner.visible
     }
 
+    // if the game is still going on, update the grid in the appropriate
+    // direction every time a key is pressed
     if (!gameBoard.gameFinished) {
         if (keyCode === LEFT_ARROW || key === "a") {
             let previousGrid = [...gameBoard.grid]

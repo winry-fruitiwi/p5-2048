@@ -10,7 +10,7 @@
     <script type="text/javascript" src="GameBoard.js"></script>
     <!-- this line removes any default padding and style. you might only need one of these values set. -->
     <link rel="stylesheet" type="text/css" href="style.css"/>
-    <title>2️⃣0️⃣4️⃣8️⃣</title> <!-- this gibberish just translates to 2048 with letters in blocks -->
+    <title>2️⃣0️⃣4️⃣8️⃣</title> <!-- this just translates to 2048 with letters in blocks -->
 </head>
 
 <div id="canvasContainer">
@@ -18,6 +18,18 @@
     <div id="ins"></div>
 </div>
 
+<!-- contains all the divs of all the widgets of the 2048 game.
+    The main widgets are just the score display and the new game button.
+    I might add more in the future
+-->
+<div id="widgetContainer">
+    <div id="scoreWidget">
+        <p>score: 0</p>
+    </div>
+
+    <!-- in sketch.js, I renew the board when this button is clicked -->
+    <button type="button" id="newGameButton">New Game</button>
+</div>
 <body>
 </body>
 </html>

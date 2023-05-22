@@ -16,3 +16,25 @@ body {
     font-size: 12px;
     height: 100px;
 }
+
+#scoreWidget {
+    background-color: saddlebrown;
+    padding: 10px 10px;
+
+    font-size: 20px;
+}
+
+#widgetContainer {
+    height: auto;
+    width: auto;
+    margin-left: 40px;
+}
+
+#newGameButton {
+    background-color: rgb(50, 50, 50);
+    color: gainsboro;
+    padding-left: 10px;
+    padding-right: 10px;
+
+    font-size: 20px;
+}
