@@ -54,7 +54,6 @@ class GameBoard {
                 if (num !== 0) {
                     // if it is a GridNum, set its position based on the index,
                     // like in spawnRandomNumber
-                    print("number detected!")
                     num.setPos(
                         j * this.width / 4 + this.width / 8,
                         i * this.height / 4 + this.height / 8
@@ -111,7 +110,9 @@ class GameBoard {
             }
         }
 
-        console.log("score: " + this.score)
+        // select the score display widget
+        let scoreDisplay = document.getElementById("scoreWidget")
+        scoreDisplay.innerHTML = "score: " + str(this.score)
 
         return output2048Row
     }

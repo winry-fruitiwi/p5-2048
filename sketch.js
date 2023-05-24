@@ -2,10 +2,9 @@
  *  @author Winry
  *  @date 2022.8.10
  *
- *  Status: Now beginning to implement visual effects.
- *  Classes include GameBoard, Number
- *  GameBoard must show all numbers. Does not matter if number is a Number
- *  or a number (haha).
+ *  Status: It has been almost a year since I started the project.
+ *  I'm working on polishing off the visuals and adding a score display and
+ *  new game button.
  *
  */
 

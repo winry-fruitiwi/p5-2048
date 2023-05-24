@@ -28,7 +28,13 @@
     </div>
 
     <!-- in sketch.js, I renew the board when this button is clicked -->
-    <button type="button" id="newGameButton">New Game</button>
+    <button id="newGameButton">New Game</button>
+
+    <script>
+        document.querySelector('#newGameButton').addEventListener('click', function() {
+            console.log("hello!")
+        })
+    </script>
 </div>
 <body>
 </body>
