@@ -32,8 +32,13 @@
 
     <script>
         document.querySelector('#newGameButton').addEventListener('click', function() {
-            console.log("hello!")
+            gameBoard = new GameBoard()
+
+            let scoreDisplay = document.getElementById("scoreWidget")
+            scoreDisplay.innerHTML = "score: 0"
         })
+
+
     </script>
 </div>
 <body>
