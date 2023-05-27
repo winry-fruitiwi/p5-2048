@@ -20,7 +20,7 @@
 
 <!-- contains all the divs of all the widgets of the 2048 game.
     The main widgets are just the score display and the new game button.
-    I might add more in the future
+    I might add more in the future, such as the best score display.
 -->
 <div id="widgetContainer">
     <div id="scoreWidget">
@@ -31,7 +31,9 @@
     <button id="newGameButton">New Game</button>
 
     <script>
+        // when the new game button is pressed:
         document.querySelector('#newGameButton').addEventListener('click', function() {
+            // initialize a new game board and reinitialize the score
             gameBoard = new GameBoard()
 
             let scoreDisplay = document.getElementById("scoreWidget")

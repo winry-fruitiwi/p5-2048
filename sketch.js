@@ -69,6 +69,9 @@ function setup() {
     )
 
     userWonOrLost()
+
+    let scoreDisplay = document.getElementById("scoreWidget")
+    scoreDisplay.innerHTML = "score: 0"
 }
 
 
