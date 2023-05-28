@@ -18,11 +18,15 @@ body {
 }
 
 #scoreWidget {
-    background-color: saddlebrown;
+    background-color: #BBADA0;
+    color: #FFFFFF;
     padding: 0 10px;
     margin: 20px;
+    border-radius: 5px;
 
     font-size: 25px;
+    font-weight: bold;
+
     font-family: meiryo, sans-serif;
 }
 
@@ -36,11 +40,13 @@ body {
     all: unset;
     cursor: pointer;
 
+    border-radius: 5px;
+
     background-color: rgb(50, 50, 50);
     color: gainsboro;
     padding-left: 10px;
     padding-right: 10px;
     margin: 20px;
 
-    font-size: 20px;
+    font-size: 30px;
 }
