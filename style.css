@@ -32,7 +32,7 @@ body {
 
 #widgetContainer {
     height: 70%;
-    width: auto;
+    width: 20%;
     margin-left: 40px;
 }
 
@@ -42,11 +42,13 @@ body {
 
     border-radius: 5px;
 
-    background-color: rgb(50, 50, 50);
+    background-color: #8F7A66;
     color: gainsboro;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding: 10px 40px;
     margin: 20px;
 
-    font-size: 30px;
+    font-size: 15px;
+    font-weight: bold;
+
+    font-family: meiryo, sans-serif;
 }
