@@ -30,6 +30,19 @@ body {
     font-family: meiryo, sans-serif;
 }
 
+#bestScoreWidget {
+    background-color: #BBADA0;
+    color: #FFFFFF;
+    padding: 0 10px;
+    margin: 20px;
+    border-radius: 5px;
+
+    font-size: 25px;
+    font-weight: bold;
+
+    font-family: meiryo, sans-serif;
+}
+
 #widgetContainer {
     height: 70%;
     width: 20%;

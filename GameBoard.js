@@ -113,6 +113,13 @@ class GameBoard {
         // select the score display widget
         let scoreDisplay = document.getElementById("scoreWidget")
         scoreDisplay.innerHTML = "score: " + str(this.score)
+        let bestScore = localStorage.getItem("best score")
+
+        if (this.score > bestScore) {
+            print(localStorage.getItem("best score"))
+            localStorage.setItem("best score", this.score)
+            print(localStorage.getItem("best score"))
+        }
 
         return output2048Row
     }
