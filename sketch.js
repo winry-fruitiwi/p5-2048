@@ -74,7 +74,11 @@ function setup() {
     scoreDisplay.innerHTML = "score: 0"
 
     let bestScore = document.getElementById("bestScoreWidget")
-    bestScore.innerHTML = "best: " + localStorage.getItem("best score")
+    if (localStorage.getItem("best score") !== null) {
+        bestScore.innerHTML = "best: " + localStorage.getItem("best score")
+    } else {
+        bestScore.innerHTML = "best: 0"
+    }
 }
 
 
