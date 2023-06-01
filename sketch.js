@@ -72,6 +72,9 @@ function setup() {
 
     let scoreDisplay = document.getElementById("scoreWidget")
     scoreDisplay.innerHTML = "score: 0"
+
+    let bestScore = document.getElementById("bestScoreWidget")
+    bestScore.innerHTML = "best: " + localStorage.getItem("best score")
 }
 
 
