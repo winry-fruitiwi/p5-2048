@@ -29,17 +29,43 @@ class GameBoard {
     // initializes the grid. This will be important when I add Number.js so
     // that the constructor doesn't look messy and can be minimized.
     initializeGrid() {
-        // create an empty grid
-        this.grid = [
-            [0,0,0,0],
-            [0,0,0,0],
-            [0,0,0,0],
-            [0,0,0,0]
-        ]
+        // if there is no grid already in local storage, then create an
+        // empty grid because the user hasn't played or cleared the storage
+        // recently
+        let storedGrid = localStorage.getItem("game board")
 
-        // spawn two random numbers inside the grid to construct a 2048 grid
-        this.spawnRandomNumber()
-        this.spawnRandomNumber()
+        if (storedGrid === null) {
+            // create an empty grid
+            this.grid = [
+                [0,0,0,0],
+                [0,0,0,0],
+                [0,0,0,0],
+                [0,0,0,0]
+            ]
+
+            // spawn two random numbers inside the grid to construct a 2048 grid
+            this.spawnRandomNumber()
+            this.spawnRandomNumber()
+        } else {
+            // otherwise, the grid is in a string that looks like
+            // '0,0,0,0,0,0,0,0,0,0,0,8,2,0,0,2', so we can just split the
+            // string by commas. note that there's no comma at the end or
+            // the beginning, so the splitting will be nice and even!
+            let strGrid = split(storedGrid, ",")
+            print(strGrid)
+
+            // just for testing for now
+            this.grid = [
+                [0,0,0,0],
+                [0,0,0,0],
+                [0,0,0,0],
+                [0,0,0,0]
+            ]
+
+            // spawn two random numbers inside the grid to construct a 2048 grid
+            this.spawnRandomNumber()
+            this.spawnRandomNumber()
+        }
     }
 
 
@@ -378,5 +404,11 @@ class GameBoard {
         noStroke()
 
         textAlign(LEFT)
+    }
+
+
+    // stores the game board state in the local storage. called every move
+    store() {
+        localStorage.setItem("game board", this.grid)
     }
 }

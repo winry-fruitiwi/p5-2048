@@ -37,6 +37,11 @@
     <script>
         // when the new game button is pressed:
         document.querySelector('#newGameButton').addEventListener('click', function() {
+            // because the gameBoard checks for the previous board, we need to
+            // clear the previous game board from local storage
+            localStorage.removeItem("game board")
+            localStorage.removeItem("score")
+
             // initialize a new game board and reinitialize the score
             gameBoard = new GameBoard()
 

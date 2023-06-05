@@ -349,6 +349,7 @@ function keyPressed() {
             gameBoard.spawnRandomNumber()}
 
         userWonOrLost()
+        gameBoard.store()
     }
 }
 
