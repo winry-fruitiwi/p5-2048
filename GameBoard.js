@@ -54,7 +54,6 @@ class GameBoard {
             let strGrid = split(storedGrid, ",")
             print(strGrid)
 
-            // just for testing for now
             this.grid = [
                 [0,0,0,0],
                 [0,0,0,0],
@@ -62,9 +61,24 @@ class GameBoard {
                 [0,0,0,0]
             ]
 
-            // spawn two random numbers inside the grid to construct a 2048 grid
-            this.spawnRandomNumber()
-            this.spawnRandomNumber()
+            // parse the stored grid string
+            for (let i = 0; i < 4; i++) {
+                for (let j = 0; j < 4; j++) {
+                    // if we encounter a nonzero integer, turn it into a GridNum
+                    if (int(strGrid[i*4 + j]) !== 0) {
+
+                        this.grid[i][j] = new GridNum(
+                            int(strGrid[i*4 + j]),
+                            new p5.Vector(
+                                j * this.width / 4 + this.width/8,
+                                i * this.height / 4 + this.height/8
+                            ),
+                            this.cellWidth,
+                            this.cellHeight
+                        )
+                    }
+                }
+            }
         }
     }
 
