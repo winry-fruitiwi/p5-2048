@@ -17,9 +17,6 @@ class GameBoard {
         this.cellWidth = this.width/4 - 20
         this.cellHeight = this.height/4 - 20
 
-        // the game's score
-        this.score = 0
-
         // before anything else, initialize the 4x4 grid. If in
         // 2048ForDummies mode in the future, make a 6x6 grid instead.
         this.initializeGrid()
@@ -46,13 +43,25 @@ class GameBoard {
             // spawn two random numbers inside the grid to construct a 2048 grid
             this.spawnRandomNumber()
             this.spawnRandomNumber()
+
+            // the game's score
+            this.score = 0
+
+            let scoreDisplay = document.getElementById("scoreWidget")
+            scoreDisplay.innerHTML = "score: 0"
         } else {
+            print("there's a game board in the cache!")
+
             // otherwise, the grid is in a string that looks like
             // '0,0,0,0,0,0,0,0,0,0,0,8,2,0,0,2', so we can just split the
             // string by commas. note that there's no comma at the end or
-            // the beginning, so the splitting will be nice and even!
+            // the beginning, so the splitting will be very easy and there
+            // will be nothing at the end to worry about!
             let strGrid = split(storedGrid, ",")
             print(strGrid)
+
+            // the game's score
+            this.score = int(localStorage.getItem("score"))
 
             this.grid = [
                 [0,0,0,0],
@@ -79,6 +88,9 @@ class GameBoard {
                     }
                 }
             }
+
+            let scoreDisplay = document.getElementById("scoreWidget")
+            scoreDisplay.innerHTML = "score: " + str(this.score)
         }
     }
 
@@ -424,5 +436,6 @@ class GameBoard {
     // stores the game board state in the local storage. called every move
     store() {
         localStorage.setItem("game board", this.grid)
+        localStorage.setItem("score", this.score)
     }
 }

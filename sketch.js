@@ -70,9 +70,6 @@ function setup() {
 
     userWonOrLost()
 
-    let scoreDisplay = document.getElementById("scoreWidget")
-    scoreDisplay.innerHTML = "score: 0"
-
     let bestScore = document.getElementById("bestScoreWidget")
     if (localStorage.getItem("best score") !== null) {
         bestScore.innerHTML = "best: " + localStorage.getItem("best score")
