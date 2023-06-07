@@ -76,6 +76,11 @@ function setup() {
     } else {
         bestScore.innerHTML = "best: 0"
     }
+
+    let score = document.getElementById("scoreWidget")
+    if (localStorage.getItem("best score") !== null) {
+        score.innerHTML = "score: " + localStorage.getItem("score")
+    }
 }
 
 
