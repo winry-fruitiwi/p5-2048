@@ -22,7 +22,7 @@ let debugCorner /* output debug text in the bottom left corner of the canvas */
 let gameFinished = false
 
 // the value required for the user to win
-const WINNING_VALUE = 2048
+const WINNING_VALUE = 16
 
 // the GameBoard that represents this game!
 let gameBoard
@@ -85,7 +85,7 @@ function setup() {
 
 
 function draw() {
-    background(234, 34, 24)
+    background(0, 0, 100)
 
     if (frameCount > 3000)
         noLoop()
@@ -604,13 +604,18 @@ function moveAllDown() {
 
 
 // has the user won or lost?
-function userWonOrLost()  {
+function userWonOrLost()  {// if all the checks pass, then the user loses
+    instructions.html(`<pre>
+        Good luck and have fun learning!
+        </pre>`)
+
     // has the user won?
     for (let row of gameBoard.grid) {
         for (let square of row) {
-            if (square === WINNING_VALUE) {
-                noLoop()
-                console.log("You won!")
+            if (square.value === WINNING_VALUE) {
+                instructions.html(`<pre>
+                You won! :D
+                </pre>`)
                 gameFinished = true
             }
         }
@@ -666,8 +671,10 @@ function userWonOrLost()  {
     }
 
 
-    // if all the checks pass, then the user loses!
-    print("game over! (make sure to analyze)")
+    // if all the checks pass, then the user loses
+    instructions.html(`<pre>
+        Oh no, you lost. You should analyze what happened and improve next time!
+        </pre>`)
     gameBoard.gameFinished = true
 }
 
