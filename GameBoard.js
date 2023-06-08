@@ -50,15 +50,12 @@ class GameBoard {
             let scoreDisplay = document.getElementById("scoreWidget")
             scoreDisplay.innerHTML = "score: 0"
         } else {
-            print("there's a game board in the cache!")
-
             // otherwise, the grid is in a string that looks like
             // '0,0,0,0,0,0,0,0,0,0,0,8,2,0,0,2', so we can just split the
             // string by commas. note that there's no comma at the end or
             // the beginning, so the splitting will be very easy and there
             // will be nothing at the end to worry about!
             let strGrid = split(storedGrid, ",")
-            print(strGrid)
 
             // the game's score
             this.score = int(localStorage.getItem("score"))
@@ -282,24 +279,6 @@ class GameBoard {
         }
 
         return gridToBeUpdated
-    }
-
-
-    // prints the grid out in the console. for back-end testing only.
-    printGrid() {
-        // copy the grid and then clear the console
-        let gridToBePrinted = [...this.grid]
-        // console.clear()
-
-        // initialize a string for the printed grid
-        let printedGridString = ""
-
-        // stringify each row of the grid and then print it
-        for (let row of gridToBePrinted) {
-            printedGridString += JSON.stringify(row) + "\n"
-        }
-
-        console.log(printedGridString)
     }
 
     // spawn a random number
